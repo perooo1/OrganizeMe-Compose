@@ -26,3 +26,8 @@ val Typography = Typography(
     )
     */
 )
+
+val SignInSignUpButtonText = TextStyle(
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold
+)

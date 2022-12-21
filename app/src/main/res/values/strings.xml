@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">OrganizeMe-Compose</string>
+    <string name="name">Name</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+
+
+    <string name="person_icon">Person icon</string>
+    <string name="email_icon">Email icon</string>
+    <string name="lock_icon">Lock icon</string>
 </resources>
