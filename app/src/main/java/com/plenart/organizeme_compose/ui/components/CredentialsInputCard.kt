@@ -2,6 +2,7 @@ package com.plenart.organizeme_compose.ui.components
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -15,19 +16,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 import com.plenart.organizeme_compose.ui.theme.SignInSignUpButtonText
 
-/*
 data class CredentialsInputCardViewState(
-    val name: String,
-    val email: String,
-    val password: String
+    val name: String = "",
+    val email: String = "",
+    val password: String = ""
 )
-*/
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CredentialsInputCard(
@@ -70,7 +72,10 @@ fun CredentialsInputCard(
                         )
                     },
                     label = { Text(text = stringResource(id = R.string.name)) },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text
+                    )
                 )
                 Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             }
@@ -84,7 +89,10 @@ fun CredentialsInputCard(
                     )
                 },
                 label = { Text(text = stringResource(id = R.string.email)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email
+                )
             )
             Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             OutlinedTextField(
@@ -98,7 +106,11 @@ fun CredentialsInputCard(
                     )
                 },
                 label = { Text(text = stringResource(id = R.string.password)) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                ),
+                visualTransformation = PasswordVisualTransformation()
             )
             Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             Button(
