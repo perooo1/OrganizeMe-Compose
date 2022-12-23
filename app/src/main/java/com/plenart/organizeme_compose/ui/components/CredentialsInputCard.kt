@@ -9,9 +9,6 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -33,24 +30,16 @@ data class CredentialsInputCardViewState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CredentialsInputCard(
-    //credentialsInputCardViewState: CredentialsInputCardViewState,
-    onEmailChange: () -> Unit,
-    onPasswordChange: () -> Unit,
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
     modifier: Modifier = Modifier,
     signUpCredentials: Boolean = false,
-    onNameChange: () -> Unit = {}
+    name: String = "",
+    onNameChange: (String) -> Unit = {}
 ) {
-    //Temporary until viewModel reference in composable screen
-    val name by rememberSaveable {
-        mutableStateOf("")
-    }
-    val email by rememberSaveable {
-        mutableStateOf("")
-    }
-    val pwd by rememberSaveable {
-        mutableStateOf("")
-    }
     Card(
         modifier = modifier,
         shape = RoundedCornerShape(dimensionResource(id = R.dimen.card_corner_radius)),
@@ -64,7 +53,7 @@ fun CredentialsInputCard(
             if (signUpCredentials) {
                 OutlinedTextField(
                     value = name,
-                    onValueChange = { onNameChange() },
+                    onValueChange = { onNameChange(it) },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Person,
@@ -81,7 +70,7 @@ fun CredentialsInputCard(
             }
             OutlinedTextField(
                 value = email,
-                onValueChange = { onEmailChange() },
+                onValueChange = { onEmailChange(it) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Email,
@@ -96,8 +85,8 @@ fun CredentialsInputCard(
             )
             Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             OutlinedTextField(
-                value = pwd,
-                onValueChange = { onPasswordChange() },
+                value = password,
+                onValueChange = { onPasswordChange(it) },
                 leadingIcon = {
                     Icon(
                         imageVector = Icons.Default.Lock, contentDescription = stringResource(
@@ -140,13 +129,14 @@ fun CredentialsInputCard(
 @Preview(showBackground = true)
 @Composable
 fun CredentialsInputCardPreview() {
-    //val viewstate = CredentialsInputCardViewState("null", "", "")
-
     CredentialsInputCard(
+        email = "",
+        password = "",
         onEmailChange = { },
         onPasswordChange = { },
         signUpCredentials = true,
         onNameChange = { },
+        name = "",
         onButtonAction = {}
     )
 }

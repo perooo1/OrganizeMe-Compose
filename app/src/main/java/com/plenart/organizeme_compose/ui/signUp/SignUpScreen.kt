@@ -16,10 +16,10 @@ import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 @Composable
 fun SignupScreen(
     viewState: SignUpViewState,
-    onEmailChange: () -> Unit,
-    onPasswordChange: () -> Unit,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
-    onNameChange: () -> Unit,
+    onNameChange: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -29,19 +29,22 @@ fun SignupScreen(
     ) {
         Text(
             text = stringResource(id = R.string.sign_up_hero_msg),
-            maxLines = 1,
+            maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(bottom = LocalSpacing.current.large)
+            modifier = Modifier.padding(LocalSpacing.current.medium, LocalSpacing.current.large)
         )
         Spacer(modifier = Modifier.width(LocalSpacing.current.medium))
         CredentialsInputCard(
-            onEmailChange = { onEmailChange() },
-            onPasswordChange = { onPasswordChange() },
+            email = viewState.credentialsInputCardViewState.email,
+            password = viewState.credentialsInputCardViewState.password,
+            onEmailChange = { onEmailChange(it) },
+            onPasswordChange = { onPasswordChange(it) },
             onButtonAction = { onButtonAction() },
             signUpCredentials = true,
-            onNameChange = { onNameChange() },
-            modifier =  Modifier.padding(LocalSpacing.current.medium)
-            )
+            name = viewState.credentialsInputCardViewState.name,
+            onNameChange = { onNameChange(it) },
+            modifier = Modifier.padding(LocalSpacing.current.medium)
+        )
     }
 }
 
