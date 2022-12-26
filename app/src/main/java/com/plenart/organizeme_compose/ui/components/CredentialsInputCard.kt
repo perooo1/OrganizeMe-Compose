@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -53,7 +54,25 @@ fun CredentialsInputCard(
             if (signUpCredentials) {
                 OutlinedTextField(
                     value = name,
-                    onValueChange = { onNameChange(it) },
+                    onValueChange = {
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, before function call: name: $name "
+                        )
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, before function call: name(it): $it "
+                        )
+                        onNameChange(it)
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, after function call: name: $name "
+                        )
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, after function call: name(it): $it "
+                        )
+                    },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Person,

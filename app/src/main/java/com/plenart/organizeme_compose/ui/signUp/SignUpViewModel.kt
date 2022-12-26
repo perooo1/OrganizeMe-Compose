@@ -8,7 +8,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.signUp.mapper.SignUpMapper
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 class SignUpViewModel(mapper: SignUpMapper) : ViewModel() {
 
@@ -25,8 +28,18 @@ class SignUpViewModel(mapper: SignUpMapper) : ViewModel() {
     val password: String
         get() = _password
 
+    var credentialsInput by mutableStateOf(CredentialsInputCardViewState(_name, _email, _password))
+
     val signUpViewState =
-        MutableStateFlow(CredentialsInputCardViewState(_name, _email, _password)).map {
+        MutableStateFlow(credentialsInput).map {
+            Log.i(
+                "EDITTEXT",
+                "VIEWMODEL - view state mapper: before mapper call: name: $_name, email: $_email, password: $_password"
+            )
+            Log.i(
+                "EDITTEXT",
+                "VIEWMODEL - view state mapper: before mapper call: name(it): ${it.name}, email(it): ${it.email}, password(it): ${it.password}"
+            )
             mapper.toSignUpViewState("hero msg from viewmodel", it.name, it.email, it.password)
         }.stateIn(
             scope = viewModelScope,
@@ -35,22 +48,44 @@ class SignUpViewModel(mapper: SignUpMapper) : ViewModel() {
         )
 
     fun onNameChanged(newName: String) {
-        Log.i("VIEWMODEL", "onNameChanged: newname: $newName / old name: $_name")
-        _name = newName
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onNameChanged before change: newname: $newName / old name: $_name"
+        )
+        //_name = newName
+        credentialsInput = credentialsInput.copy(name = newName)
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onNameChanged after change: newname: $newName / old name: $_name"
+        )
     }
 
     fun onEmailChanged(newEmail: String) {
-        Log.i("VIEWMODEL", "onEMailChanged: newname: $newEmail / old name: $_email")
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onEMailChanged before change: newname: $newEmail / old name: $_email"
+        )
         _email = newEmail
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onEMailChanged after change: newname: $newEmail / old name: $_email"
+        )
     }
 
     fun onPasswordChanged(newPwd: String) {
-        Log.i("VIEWMODEL", "onPasswodChanged: newpass: $newPwd / old name: $_password")
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onPasswodChanged before change: newpass: $newPwd / old name: $_password"
+        )
         _password = newPwd
+        Log.i(
+            "EDITTEXT",
+            "VIEWMODEL - onPasswodChanged after change: newpass: $newPwd / old name: $_password"
+        )
     }
 
-    fun logIn() {
-
+    fun signUp() {
+        Log.i("EDITTEXT", "VIEWMODEL - login function onclick")
     }
 
 }

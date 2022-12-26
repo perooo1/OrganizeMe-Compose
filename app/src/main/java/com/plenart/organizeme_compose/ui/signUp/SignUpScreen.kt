@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.signUp
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,7 +43,26 @@ fun SignupScreen(
             onButtonAction = { onButtonAction() },
             signUpCredentials = true,
             name = viewState.credentialsInputCardViewState.name,
-            onNameChange = { onNameChange(it) },
+            onNameChange = {
+                Log.i(
+                    "EDITTEXT",
+                    "SignUpScreen: onValueChange, before function call: name: ${viewState.credentialsInputCardViewState.name} "
+                )
+                Log.i(
+                    "EDITTEXT",
+                    "SignUpScreen: onValueChange, before function call: name(it): $it "
+                )
+
+                onNameChange(it)
+                Log.i(
+                    "EDITTEXT",
+                    "SignUpScreen: onValueChange, after function call: name: ${viewState.credentialsInputCardViewState.name} "
+                )
+                Log.i(
+                    "EDITTEXT",
+                    "SignUpScreen: onValueChange, after function call: name(it): $it "
+                )
+            },
             modifier = Modifier.padding(LocalSpacing.current.medium)
         )
     }

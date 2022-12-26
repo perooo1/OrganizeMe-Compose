@@ -1,24 +1,57 @@
 package com.plenart.organizeme_compose.validation
 
-class ValidatePassword {
+class ValidatePassword : Validator {
 
-    fun execute(password: String): ValidationResult {
-        if (password.length < 6) {
-            return ValidationResult(
+    override fun execute(input: String): ValidationResult {
+        val length = checkLength(input)
+        val digit = checkDigit(input)
+        val uppercase = checkUppercase(input)
+
+        return if (!length.successful) {
+            length
+        } else if (!digit.successful) {
+            digit
+        } else if (!uppercase.successful) {
+            uppercase
+        } else {
+            ValidationResult(true)
+        }
+    }
+
+    private fun checkLength(password: String): ValidationResult {
+        return if (password.length < 6) {
+            ValidationResult(
                 successful = false,
                 errorMessage = "Password needs to be at least 6 characters"
             )
+        } else {
+            ValidationResult(true)
         }
+    }
 
-        val containsLetter = password.any { it.isLetter() }
-        val containsDigit = password.any { it.isDigit() }
+    private fun checkUppercase(password: String): ValidationResult {
+        val uppercase = password.any { it.isUpperCase() }
 
-        if (!(containsLetter && containsDigit)) {
-            return ValidationResult(
+        return if (!uppercase) {
+            ValidationResult(
                 successful = false,
-                errorMessage = "Password must contain at least one digit and letter"
+                errorMessage = "Password must contain at least one uppercase letter"
             )
+        } else {
+            ValidationResult(true)
         }
-        return ValidationResult(true)
+    }
+
+    private fun checkDigit(password: String): ValidationResult {
+        val digit = password.any { it.isDigit() }
+
+        return if (!digit) {
+            ValidationResult(
+                successful = false,
+                errorMessage = "Password must contain at least one digit"
+            )
+        } else {
+            ValidationResult(true)
+        }
     }
 }
