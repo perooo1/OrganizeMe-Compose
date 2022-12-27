@@ -10,18 +10,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
+import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 @Composable
 fun SignInScreen(
-    email: String,
-    password: String,
+    credentialsInputCardViewState: CredentialsInputCardViewState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
     modifier: Modifier = Modifier,
     onNameChange: (String) -> Unit = {},
-    name: String = ""
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -36,13 +35,11 @@ fun SignInScreen(
         )
         Spacer(modifier = Modifier.width(LocalSpacing.current.medium))
         CredentialsInputCard(
-            email = email,
-            password = password,
+            viewState = credentialsInputCardViewState,
             onEmailChange = { onEmailChange(it) },
             onPasswordChange = { onPasswordChange(it) },
             onButtonAction = { onButtonAction() },
             signUpCredentials = false,
-            name = name,
             onNameChange = {onNameChange(it) },
             modifier = Modifier.padding(LocalSpacing.current.medium)
         )
@@ -52,11 +49,10 @@ fun SignInScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignInScreenPreview() {
+    val viewState = CredentialsInputCardViewState()
 
     SignInScreen(
-        name = "Jozp",
-        email = "jozo@hshs.chc",
-        password = "jozo123",
+        credentialsInputCardViewState = viewState,
         onEmailChange = { },
         onPasswordChange = { },
         onButtonAction = { },

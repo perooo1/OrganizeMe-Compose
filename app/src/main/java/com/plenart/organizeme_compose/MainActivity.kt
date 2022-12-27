@@ -1,7 +1,6 @@
 package com.plenart.organizeme_compose
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
@@ -18,20 +17,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             OrganizeMeComposeTheme {
+/*
                 val viewModel: SignInViewModel = getViewModel()
+                val viewState = viewModel.viewState
 
                 SignInScreen(
-                    email = viewModel.email,
-                    password = viewModel.password,
+                    credentialsInputCardViewState = viewState,
                     onEmailChange = { viewModel.onEmailChanged(it) },
                     onPasswordChange = { viewModel.onPasswordChanged(it) },
                     onButtonAction = { viewModel.logIn() }
                 )
 
+ */
 
-/*
                 val viewModel: SignUpViewModel = getViewModel()
-                val viewState by viewModel.signUpViewState.collectAsState()
+                val viewState = viewModel.viewState
 
                 SignupScreen(
                     viewState = viewState,
@@ -39,27 +39,9 @@ class MainActivity : ComponentActivity() {
                     onPasswordChange = { viewModel.onPasswordChanged(it) },
                     onButtonAction = { viewModel.signUp() },
                     onNameChange = {
-                        Log.i(
-                            "EDITTEXT",
-                            "MainActivity: onValueChange, before function call: name:${viewState.credentialsInputCardViewState.name}  "
-                        )
-                        Log.i(
-                            "EDITTEXT",
-                            "MainActivity: onValueChange, before function call: name(it):${it}  "
-                        )
                         viewModel.onNameChanged(it)
-                        Log.i(
-                            "EDITTEXT",
-                            "MainActivity: onValueChange, after function call: name:${viewState.credentialsInputCardViewState.name}  "
-                        )
-                        Log.i(
-                            "EDITTEXT",
-                            "MainActivity: onValueChange, after function call: name(it):${it}  "
-                        )
                     }
                 )
-*/
-
 
             }
         }

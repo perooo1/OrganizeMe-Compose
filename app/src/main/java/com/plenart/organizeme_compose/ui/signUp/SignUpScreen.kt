@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.ui.signUp
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,7 +15,7 @@ import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 @Composable
 fun SignupScreen(
-    viewState: SignUpViewState,
+    viewState: CredentialsInputCardViewState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
@@ -36,32 +35,13 @@ fun SignupScreen(
         )
         Spacer(modifier = Modifier.width(LocalSpacing.current.medium))
         CredentialsInputCard(
-            email = viewState.credentialsInputCardViewState.email,
-            password = viewState.credentialsInputCardViewState.password,
+            viewState = viewState,
             onEmailChange = { onEmailChange(it) },
             onPasswordChange = { onPasswordChange(it) },
             onButtonAction = { onButtonAction() },
             signUpCredentials = true,
-            name = viewState.credentialsInputCardViewState.name,
             onNameChange = {
-                Log.i(
-                    "EDITTEXT",
-                    "SignUpScreen: onValueChange, before function call: name: ${viewState.credentialsInputCardViewState.name} "
-                )
-                Log.i(
-                    "EDITTEXT",
-                    "SignUpScreen: onValueChange, before function call: name(it): $it "
-                )
-
                 onNameChange(it)
-                Log.i(
-                    "EDITTEXT",
-                    "SignUpScreen: onValueChange, after function call: name: ${viewState.credentialsInputCardViewState.name} "
-                )
-                Log.i(
-                    "EDITTEXT",
-                    "SignUpScreen: onValueChange, after function call: name(it): $it "
-                )
             },
             modifier = Modifier.padding(LocalSpacing.current.medium)
         )
@@ -71,17 +51,12 @@ fun SignupScreen(
 @Preview(showBackground = true)
 @Composable
 fun SignUpScreenPreview() {
-
     val viewState =
-        SignUpViewState(
-            "This is a hero msg",
-            CredentialsInputCardViewState(
-                "",
-                "",
-                ""
-            )
+        CredentialsInputCardViewState(
+            "",
+            "",
+            ""
         )
-
     SignupScreen(
         viewState = viewState,
         onEmailChange = { },
