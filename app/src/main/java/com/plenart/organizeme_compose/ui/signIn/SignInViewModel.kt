@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.signUp
+package com.plenart.organizeme_compose.ui.signIn
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -7,18 +7,13 @@ import androidx.lifecycle.ViewModel
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.validation.Validator
 
-class SignUpViewModel(
-    private val nameValidator: Validator,
+class SignInViewModel(
     private val emailValidator: Validator,
     private val passwordValidator: Validator
 ) : ViewModel() {
 
     var viewState by mutableStateOf(CredentialsInputCardViewState())
         private set
-
-    fun onNameChanged(newName: String) {
-        viewState = viewState.copy(name = newName)
-    }
 
     fun onEmailChanged(newEmail: String) {
         viewState = viewState.copy(email = newEmail)
@@ -28,28 +23,65 @@ class SignUpViewModel(
         viewState = viewState.copy(password = newPwd)
     }
 
-    fun signUp() {
-        val nameValid = nameValidator.execute(viewState.email)
+    fun logIn() {
+
         val emailValid = emailValidator.execute(viewState.email)
         val passwordValid = passwordValidator.execute(viewState.password)
 
-        if (!nameValid.successful) {
-            viewState = viewState.copy(nameError = nameValid.errorMessage)
-        } else {
-            viewState = viewState.copy(nameError = null)
-        }
-
-        if (!emailValid.successful) {
+        if(!emailValid.successful){
             viewState = viewState.copy(emailError = emailValid.errorMessage)
-        } else {
+        }
+        else{
             viewState = viewState.copy(emailError = null)
         }
 
-        if (!passwordValid.successful) {
+
+
+        if(!passwordValid.successful){
             viewState = viewState.copy(passwordError = passwordValid.errorMessage)
-        } else {
+        }
+        else{
             viewState = viewState.copy(passwordError = null)
         }
 
     }
+
+    /*
+    private var _name by mutableStateOf("")
+    private var _email by mutableStateOf("")
+    private var _password by mutableStateOf("")
+
+    val name: String
+        get() = _name
+
+    val email: String
+        get() = _email
+
+    val password: String
+        get() = _password
+
+    fun onEmailChanged(newEmail: String) {
+        _email = newEmail
+    }
+
+    fun onPasswordChanged(newPwd: String) {
+        _password = newPwd
+    }
+
+    fun logIn() {
+        val emailValid = emailValidator.execute(_email)
+        val passwordValid = passwordValidator.execute(_password)
+        Log.i(
+            "VALIDATOR",
+            "Email - error: ${emailValid.errorMessage}, isValid: ${emailValid.successful}"
+        )
+        Log.i(
+            "VALIDATOR",
+            "Password - error: ${passwordValid.errorMessage}, isValid: ${passwordValid.successful}"
+        )
+    }
+
+     */
+
+
 }

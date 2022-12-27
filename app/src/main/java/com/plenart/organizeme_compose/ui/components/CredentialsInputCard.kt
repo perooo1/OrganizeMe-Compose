@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -24,20 +25,21 @@ import com.plenart.organizeme_compose.ui.theme.SignInSignUpButtonText
 data class CredentialsInputCardViewState(
     val name: String = "",
     val email: String = "",
-    val password: String = ""
+    val password: String = "",
+    val nameError: String? = null,
+    val emailError: String? = null,
+    val passwordError: String? = null
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CredentialsInputCard(
-    email: String,
-    password: String,
+    viewState: CredentialsInputCardViewState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
     modifier: Modifier = Modifier,
     signUpCredentials: Boolean = false,
-    name: String = "",
     onNameChange: (String) -> Unit = {}
 ) {
     Card(
@@ -52,8 +54,26 @@ fun CredentialsInputCard(
         ) {
             if (signUpCredentials) {
                 OutlinedTextField(
-                    value = name,
-                    onValueChange = { onNameChange(it) },
+                    value = viewState.name,
+                    onValueChange = {
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, before function call: name: ${viewState.name} "
+                        )
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, before function call: name(it): $it "
+                        )
+                        onNameChange(it)
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, after function call: name: $${viewState.name} "
+                        )
+                        Log.i(
+                            "EDITTEXT",
+                            "COMPONENT - CredentialsInput: onValueChange, after function call: name(it): $it "
+                        )
+                    },
                     leadingIcon = {
                         Icon(
                             imageVector = Icons.Default.Person,
@@ -61,15 +81,24 @@ fun CredentialsInputCard(
                         )
                     },
                     label = { Text(text = stringResource(id = R.string.name)) },
+                    isError = viewState.nameError != null,
                     modifier = Modifier.fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         keyboardType = KeyboardType.Text
                     )
                 )
+                if(viewState.nameError != null){
+                    Text(
+                        text = viewState.nameError,
+                        color = MaterialTheme.colorScheme.error,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
                 Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             }
             OutlinedTextField(
-                value = email,
+                value = viewState.email,
                 onValueChange = { onEmailChange(it) },
                 leadingIcon = {
                     Icon(
@@ -78,14 +107,23 @@ fun CredentialsInputCard(
                     )
                 },
                 label = { Text(text = stringResource(id = R.string.email)) },
+                isError = viewState.emailError != null,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Email
                 )
             )
+            if(viewState.emailError != null){
+                Text(
+                    text = viewState.emailError,
+                    color = MaterialTheme.colorScheme.error,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             OutlinedTextField(
-                value = password,
+                value = viewState.password,
                 onValueChange = { onPasswordChange(it) },
                 leadingIcon = {
                     Icon(
@@ -95,12 +133,21 @@ fun CredentialsInputCard(
                     )
                 },
                 label = { Text(text = stringResource(id = R.string.password)) },
+                isError = viewState.passwordError != null,
                 modifier = Modifier.fillMaxWidth(),
                 keyboardOptions = KeyboardOptions(
                     keyboardType = KeyboardType.Password
                 ),
                 visualTransformation = PasswordVisualTransformation()
             )
+            if(viewState.passwordError != null){
+                Text(
+                    text = viewState.passwordError,
+                    color = MaterialTheme.colorScheme.error,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
             Spacer(modifier = Modifier.height(LocalSpacing.current.credentialsInputSpacing))
             Button(
                 modifier = Modifier.fillMaxWidth(),
@@ -129,14 +176,15 @@ fun CredentialsInputCard(
 @Preview(showBackground = true)
 @Composable
 fun CredentialsInputCardPreview() {
+
+    val viewState = CredentialsInputCardViewState()
+
     CredentialsInputCard(
-        email = "",
-        password = "",
+        viewState = viewState,
         onEmailChange = { },
         onPasswordChange = { },
         signUpCredentials = true,
         onNameChange = { },
-        name = "",
         onButtonAction = {}
     )
 }

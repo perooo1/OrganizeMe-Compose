@@ -13,4 +13,5 @@
 
 
     <string name="sign_up_hero_msg">To sign up with us, please provide your name, email and password</string>
+    <string name="sign_in_hero_msg">To sign in, please provide your email and password</string>
 </resources>

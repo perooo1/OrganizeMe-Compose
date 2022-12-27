@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.signUp
+package com.plenart.organizeme_compose.ui.signIn
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
@@ -14,13 +14,13 @@ import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewStat
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 @Composable
-fun SignupScreen(
-    viewState: CredentialsInputCardViewState,
+fun SignInScreen(
+    credentialsInputCardViewState: CredentialsInputCardViewState,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onButtonAction: () -> Unit,
-    onNameChange: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNameChange: (String) -> Unit = {},
 ) {
     Column(
         modifier = modifier.fillMaxSize(),
@@ -28,21 +28,19 @@ fun SignupScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(id = R.string.sign_up_hero_msg),
+            text = stringResource(id = R.string.sign_in_hero_msg),
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier.padding(LocalSpacing.current.medium, LocalSpacing.current.large)
         )
         Spacer(modifier = Modifier.width(LocalSpacing.current.medium))
         CredentialsInputCard(
-            viewState = viewState,
+            viewState = credentialsInputCardViewState,
             onEmailChange = { onEmailChange(it) },
             onPasswordChange = { onPasswordChange(it) },
             onButtonAction = { onButtonAction() },
-            signUpCredentials = true,
-            onNameChange = {
-                onNameChange(it)
-            },
+            signUpCredentials = false,
+            onNameChange = {onNameChange(it) },
             modifier = Modifier.padding(LocalSpacing.current.medium)
         )
     }
@@ -50,15 +48,11 @@ fun SignupScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun SignUpScreenPreview() {
-    val viewState =
-        CredentialsInputCardViewState(
-            "",
-            "",
-            ""
-        )
-    SignupScreen(
-        viewState = viewState,
+fun SignInScreenPreview() {
+    val viewState = CredentialsInputCardViewState()
+
+    SignInScreen(
+        credentialsInputCardViewState = viewState,
         onEmailChange = { },
         onPasswordChange = { },
         onButtonAction = { },
