@@ -13,6 +13,7 @@ import org.koin.dsl.module
 val signUpModule = module {
     viewModel {
         SignUpViewModel(
+            authRepository = get(),
             nameValidator = get(named(VALIDATOR_NAME_QUALIFIER)),
             emailValidator = get(named(VALIDATOR_EMAIL_QUALIFIER)),
             passwordValidator = get(named(VALIDATOR_PASSWORD_QUALIFIER))

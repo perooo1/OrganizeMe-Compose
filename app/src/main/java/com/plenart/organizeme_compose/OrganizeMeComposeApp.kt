@@ -2,6 +2,8 @@ package com.plenart.organizeme_compose
 
 import android.app.Application
 import android.util.Log
+import com.plenart.organizeme_compose.data.auth.di.authenticationRepositoryModule
+import com.plenart.organizeme_compose.data.di.firebaseModule
 import com.plenart.organizeme_compose.ui.signIn.di.signInModule
 import com.plenart.organizeme_compose.ui.signUp.di.signUpModule
 import com.plenart.organizeme_compose.validation.di.validationModule
@@ -20,7 +22,9 @@ class OrganizeMeComposeApp : Application() {
             modules(
                 signUpModule,
                 signInModule,
-                validationModule
+                validationModule,
+                firebaseModule,
+                authenticationRepositoryModule
             )
         }
         Log.d("OrganizeMeCompose", "App started")
