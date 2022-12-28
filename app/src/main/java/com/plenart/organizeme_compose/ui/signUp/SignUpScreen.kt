@@ -12,17 +12,20 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
-import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun SignUpRoute(signUpViewModel: SignUpViewModel) {
+fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToHomeScreen: () -> Unit) {
     val viewState = signUpViewModel.viewState
 
     SignupScreen(
         viewState = viewState,
         onEmailChange = { signUpViewModel.onEmailChanged(it) },
         onPasswordChange = { signUpViewModel.onPasswordChanged(it) },
-        onButtonAction = { signUpViewModel.signUp() },
+        onButtonAction = {
+            if (signUpViewModel.signUp()) {
+                onNavigateToHomeScreen()
+            }
+        },
         onNameChange = {
             signUpViewModel.onNameChanged(it)
         }
@@ -78,6 +81,6 @@ fun SignUpScreenPreview() {
         onEmailChange = { },
         onPasswordChange = { },
         onButtonAction = { },
-        onNameChange = { },
+        onNameChange = { }
     )
 }

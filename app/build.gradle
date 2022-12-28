@@ -76,4 +76,7 @@ dependencies {
     //Koin
     implementation "io.insert-koin:koin-android:$koin_android_version"
     implementation "io.insert-koin:koin-androidx-compose:$koin_android_compose_version"
+    //SplashScreen
+    implementation "androidx.core:core-splashscreen:1.0.0"
+
 }

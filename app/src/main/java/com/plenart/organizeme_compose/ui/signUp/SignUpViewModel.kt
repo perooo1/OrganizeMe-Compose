@@ -52,7 +52,8 @@ class SignUpViewModel(
         }
     }
 
-    fun signUp() {
+    fun signUp(): Boolean {
+
         val nameValid = nameValidator.execute(viewState.email)
         val emailValid = emailValidator.execute(viewState.email)
         val passwordValid = passwordValidator.execute(viewState.password)
@@ -78,9 +79,17 @@ class SignUpViewModel(
             viewState = viewState.copy(passwordError = null)
         }
 
-        Log.i("TAG","BEFORE Is user authentivcated: ${userAuthenticated.toString()}")
+
+        Log.i("TAG", "BEFORE SIGN UP -----------")
+        Log.i(
+            "TAG",
+            "before auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
+        )
         getFirebaseAuthState()
-        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+        Log.i(
+            "TAG",
+            "after auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
+        )
 
 
 
@@ -93,12 +102,19 @@ class SignUpViewModel(
             }
         }
 
-        Log.i("TAG","AFTER SIGN UP -----------")
-        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+        Log.i("TAG", "AFTER SIGN UP -----------")
+        Log.i(
+            "TAG",
+            "before auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
+        )
         getFirebaseAuthState()
-        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+        Log.i(
+            "TAG",
+            "after auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
+        )
 
 
+        return true
     }
 
 }

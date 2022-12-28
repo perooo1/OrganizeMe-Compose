@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.plenart.organizeme_compose.navigation.NavigationItem
+import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
 import com.plenart.organizeme_compose.ui.signUp.SignUpRoute
 import org.koin.androidx.compose.getViewModel
 
@@ -33,20 +34,25 @@ fun MainScreen() {
                 modifier = Modifier.padding(padding)
             ) {
                 composable(NavigationItem.SignUpDestination.route) {
-                    SignUpRoute(signUpViewModel = getViewModel())
+                    SignUpRoute(
+                        signUpViewModel = getViewModel(),
+                        onNavigateToHomeScreen = {
+                            navController.navigate(NavigationItem.HomeDestination.route)
+                        }
+                    )
+                }
+                composable(NavigationItem.HomeDestination.route) {
+                    HomeScreenRoute()
                 }
             }
         }
-
     }
-
 }
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar() {
-
     CenterAlignedTopAppBar(colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ),
@@ -54,6 +60,4 @@ fun TopBar() {
             Text(text = "this is a placeholder title")
         }
     )
-
-
 }
