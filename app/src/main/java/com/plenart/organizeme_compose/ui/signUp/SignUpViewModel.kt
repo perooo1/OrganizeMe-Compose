@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.signUp
 
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -77,6 +78,11 @@ class SignUpViewModel(
             viewState = viewState.copy(passwordError = null)
         }
 
+        Log.i("TAG","BEFORE Is user authentivcated: ${userAuthenticated.toString()}")
+        getFirebaseAuthState()
+        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+
+
 
         if (nameValid.successful && emailValid.successful && passwordValid.successful) {
             viewModelScope.launch {
@@ -86,5 +92,13 @@ class SignUpViewModel(
                     }
             }
         }
+
+        Log.i("TAG","AFTER SIGN UP -----------")
+        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+        getFirebaseAuthState()
+        Log.i("TAG","Is user authentivcated: ${userAuthenticated.toString()}")
+
+
     }
+
 }

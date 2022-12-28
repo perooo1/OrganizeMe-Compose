@@ -24,6 +24,8 @@ class AuthenticationRepositoryImpl(
     override fun isUserAuthenticated(): Boolean = auth.currentUser != null
 
     override fun getAuthState(): Flow<Boolean> = callbackFlow {
+        Log.i("TAG","Current user: ${auth.currentUser.toString()}")
+
         val authStateListener = AuthStateListener {
             trySend(auth.currentUser == null)           //add try catch block
         }
@@ -47,7 +49,7 @@ class AuthenticationRepositoryImpl(
                     "FIREBASE",
                     "AuthRepoImpl, signup success listener, operationsucces: $operationSuccessful"
                 )
-            }
+            }.await()
 
             if (operationSuccessful) {
                 val userId = auth.currentUser?.uid!!

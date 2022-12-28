@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose
+package com.plenart.organizeme_compose.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -30,6 +30,7 @@ class MainActivity : ComponentActivity() {
 
  */
 
+                /*
                 val viewModel: SignUpViewModel = getViewModel()
                 val viewState = viewModel.viewState
 
@@ -42,6 +43,11 @@ class MainActivity : ComponentActivity() {
                         viewModel.onNameChanged(it)
                     }
                 )
+                 */
+
+                MainScreen()
+
+
 
             }
         }

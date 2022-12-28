@@ -12,6 +12,22 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
+import org.koin.androidx.compose.getViewModel
+
+@Composable
+fun SignUpRoute(signUpViewModel: SignUpViewModel) {
+    val viewState = signUpViewModel.viewState
+
+    SignupScreen(
+        viewState = viewState,
+        onEmailChange = { signUpViewModel.onEmailChanged(it) },
+        onPasswordChange = { signUpViewModel.onPasswordChanged(it) },
+        onButtonAction = { signUpViewModel.signUp() },
+        onNameChange = {
+            signUpViewModel.onNameChanged(it)
+        }
+    )
+}
 
 @Composable
 fun SignupScreen(
