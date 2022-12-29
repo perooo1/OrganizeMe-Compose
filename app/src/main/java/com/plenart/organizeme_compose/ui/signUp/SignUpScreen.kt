@@ -1,14 +1,17 @@
 package com.plenart.organizeme_compose.ui.signUp
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
+import com.plenart.organizeme_compose.data.auth.AuthResponse
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
@@ -16,14 +19,27 @@ import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 @Composable
 fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToHomeScreen: () -> Unit) {
     val viewState = signUpViewModel.viewState
-
+    val scope = rememberCoroutineScope()
+    val status = signUpViewModel.userSignUpSuccess.value
     SignupScreen(
         viewState = viewState,
         onEmailChange = { signUpViewModel.onEmailChanged(it) },
         onPasswordChange = { signUpViewModel.onPasswordChanged(it) },
         onButtonAction = {
-            if (signUpViewModel.signUp()) {
-                onNavigateToHomeScreen()
+            signUpViewModel.signUp()
+
+            when (status) {
+                is AuthResponse.Error -> Log.i(
+                    "TAG",
+                    "SignUpRoute -> AuthResponse is Error, ${status.message}"
+                )
+                AuthResponse.Loading -> Log.i("TAG", "SignUpRoute -> AuthResponse is Loading")
+                is AuthResponse.Success -> {
+                    Log.i("TAG", "SignUpRoute -> AuthResponse is Success, before onNavigateHome")
+                    //todo -> Should there be launched effect / rememberCoroutineScope?
+                    onNavigateToHomeScreen()
+                    Log.i("TAG", "SignUpRoute -> AuthResponse is Success, after onNavigateHome")
+                }
             }
         },
         onNameChange = {

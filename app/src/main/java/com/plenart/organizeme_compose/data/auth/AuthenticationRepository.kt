@@ -4,6 +4,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationRepository {
     fun isUserAuthenticated(): Boolean
-    fun getAuthState(): Flow<Boolean>
-    fun firebaseSignUp(name: String, email: String, password: String): Flow<Boolean>
+    suspend fun getAuthState(): Flow<Boolean>
+    suspend fun firebaseSignUp(
+        name: String,
+        email: String,
+        password: String
+    ): Flow<AuthResponse<Boolean>>
 }

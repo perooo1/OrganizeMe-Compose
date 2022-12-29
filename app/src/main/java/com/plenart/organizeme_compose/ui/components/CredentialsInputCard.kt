@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.ui.components
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -56,23 +55,7 @@ fun CredentialsInputCard(
                 OutlinedTextField(
                     value = viewState.name,
                     onValueChange = {
-                        Log.i(
-                            "EDITTEXT",
-                            "COMPONENT - CredentialsInput: onValueChange, before function call: name: ${viewState.name} "
-                        )
-                        Log.i(
-                            "EDITTEXT",
-                            "COMPONENT - CredentialsInput: onValueChange, before function call: name(it): $it "
-                        )
                         onNameChange(it)
-                        Log.i(
-                            "EDITTEXT",
-                            "COMPONENT - CredentialsInput: onValueChange, after function call: name: $${viewState.name} "
-                        )
-                        Log.i(
-                            "EDITTEXT",
-                            "COMPONENT - CredentialsInput: onValueChange, after function call: name(it): $it "
-                        )
                     },
                     leadingIcon = {
                         Icon(
@@ -87,7 +70,7 @@ fun CredentialsInputCard(
                         keyboardType = KeyboardType.Text
                     )
                 )
-                if(viewState.nameError != null){
+                if (viewState.nameError != null) {
                     Text(
                         text = viewState.nameError,
                         color = MaterialTheme.colorScheme.error,
@@ -113,7 +96,7 @@ fun CredentialsInputCard(
                     keyboardType = KeyboardType.Email
                 )
             )
-            if(viewState.emailError != null){
+            if (viewState.emailError != null) {
                 Text(
                     text = viewState.emailError,
                     color = MaterialTheme.colorScheme.error,
@@ -140,7 +123,7 @@ fun CredentialsInputCard(
                 ),
                 visualTransformation = PasswordVisualTransformation()
             )
-            if(viewState.passwordError != null){
+            if (viewState.passwordError != null) {
                 Text(
                     text = viewState.passwordError,
                     color = MaterialTheme.colorScheme.error,

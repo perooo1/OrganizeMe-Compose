@@ -23,8 +23,8 @@ class AuthenticationRepositoryImpl(
 
     override fun isUserAuthenticated(): Boolean = auth.currentUser != null
 
-    override fun getAuthState(): Flow<Boolean> = callbackFlow {
-        Log.i("TAG","Current user: ${auth.currentUser.toString()}")
+    override suspend fun getAuthState(): Flow<Boolean> = callbackFlow {
+        Log.i("TAG", "Current user: ${auth.currentUser.toString()}")
 
         val authStateListener = AuthStateListener {
             trySend(auth.currentUser == null)           //add try catch block
@@ -35,14 +35,15 @@ class AuthenticationRepositoryImpl(
         }
     }
 
-    override fun firebaseSignUp(
+    override suspend fun firebaseSignUp(
         name: String,
         email: String,
         password: String
-    ): Flow<Boolean> = flow {
+    ): Flow<AuthResponse<Boolean>> = flow {
         operationSuccessful = false
 
         try {
+            emit(AuthResponse.Loading)
             auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
                 operationSuccessful = true
                 Log.i(
@@ -61,17 +62,16 @@ class AuthenticationRepositoryImpl(
                             "AuthRepoImpl,firestore document add success listener, operationsucces: ${userObj.toString()}"
                         )
                     }.await()
-                emit(operationSuccessful)
+                emit(AuthResponse.Success(operationSuccessful))
             } else {
-                emit(operationSuccessful)
+                emit(AuthResponse.Success(operationSuccessful))
             }
-
         } catch (e: FirebaseAuthException) {
             Log.i(
                 "FIREBASE",
                 "AuthRepoImpl,ERROR: ${e.errorCode}, msg hehe: ${e.localizedMessage}"
             )
-            emit(false)
+            emit(AuthResponse.Success(operationSuccessful))
         }
     }
 }

@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 
-
 @Composable
 fun HomeScreenRoute() {
     HomeScreen()

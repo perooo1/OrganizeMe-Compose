@@ -1,12 +1,12 @@
 package com.plenart.organizeme_compose.ui.signUp
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.plenart.organizeme_compose.data.auth.AuthResponse
 import com.plenart.organizeme_compose.data.auth.AuthenticationRepository
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.validation.Validator
@@ -25,8 +25,8 @@ class SignUpViewModel(
     private val userAuthenticated = authRepository.isUserAuthenticated()
 
     private val _userSignUpSuccess =
-        mutableStateOf(false)
-    val userSignUpSuccess: State<Boolean> = _userSignUpSuccess
+        mutableStateOf<AuthResponse<Boolean>>(AuthResponse.Success(false))
+    val userSignUpSuccess: State<AuthResponse<Boolean>> = _userSignUpSuccess
 
     private val _firebaseAuthState = mutableStateOf(false)
     val firebaseAuthState: State<Boolean> = _firebaseAuthState
@@ -52,7 +52,7 @@ class SignUpViewModel(
         }
     }
 
-    fun signUp(): Boolean {
+    fun signUp() {
 
         val nameValid = nameValidator.execute(viewState.email)
         val emailValid = emailValidator.execute(viewState.email)
@@ -79,20 +79,6 @@ class SignUpViewModel(
             viewState = viewState.copy(passwordError = null)
         }
 
-
-        Log.i("TAG", "BEFORE SIGN UP -----------")
-        Log.i(
-            "TAG",
-            "before auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
-        )
-        getFirebaseAuthState()
-        Log.i(
-            "TAG",
-            "after auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
-        )
-
-
-
         if (nameValid.successful && emailValid.successful && passwordValid.successful) {
             viewModelScope.launch {
                 authRepository.firebaseSignUp(viewState.name, viewState.email, viewState.password)
@@ -101,20 +87,5 @@ class SignUpViewModel(
                     }
             }
         }
-
-        Log.i("TAG", "AFTER SIGN UP -----------")
-        Log.i(
-            "TAG",
-            "before auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
-        )
-        getFirebaseAuthState()
-        Log.i(
-            "TAG",
-            "after auth state Is user authentivcated: ${userAuthenticated.toString()}, _userSignUpSuccess: ${_userSignUpSuccess.value}"
-        )
-
-
-        return true
     }
-
 }
