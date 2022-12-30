@@ -4,7 +4,9 @@ import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuth.AuthStateListener
 import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.plenart.organizeme_compose.data.user.FIRESTORE_COLLECTION_USERS
 import com.plenart.organizeme_compose.model.User
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -12,14 +14,15 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
-const val FIRESTORE_COLLECTION_USERS = "Users"
-
 class AuthenticationRepositoryImpl(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore
 ) : AuthenticationRepository {
 
     var operationSuccessful = false
+
+    override val currentUser: FirebaseUser?
+        get() = auth.currentUser
 
     override fun isUserAuthenticated(): Boolean = auth.currentUser != null
 
