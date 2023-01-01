@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -24,6 +23,7 @@ import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigati
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.MenuIcon
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBar
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
+import com.plenart.organizeme_compose.ui.signIn.SignInRoute
 import com.plenart.organizeme_compose.ui.signUp.SignUpRoute
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
@@ -84,9 +84,19 @@ fun MainScreen() {
                 composable(NavigationItem.SignUpDestination.route) {
                     SignUpRoute(
                         signUpViewModel = getViewModel(),
+                        onNavigateToSignInScreen = {
+                            navController.navigate(NavigationItem.SignInDestination.route) {
+                                popUpTo(NavigationItem.SignUpDestination.route) { inclusive = true }
+                            }
+                        }
+                    )
+                }
+                composable(NavigationItem.SignInDestination.route) {
+                    SignInRoute(
+                        viewModel = getViewModel(),
                         onNavigateToHomeScreen = {
                             navController.navigate(NavigationItem.HomeDestination.route) {
-                                popUpTo(NavigationItem.SignUpDestination.route) { inclusive = true }
+                                popUpTo(NavigationItem.SignInDestination.route) { inclusive = true }
                             }
                         }
                     )
@@ -97,36 +107,4 @@ fun MainScreen() {
             }
         }
     }
-
-
-/*
-    Scaffold(
-        topBar = { TopBar(navigationIcon = { if (showMenuIcon) MenuIcon(onIconAction = { }) }) },
-    ) { padding ->
-        Surface(
-            color = MaterialTheme.colorScheme.background,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            NavHost(
-                navController = navController,
-                startDestination = NavigationItem.SignUpDestination.route,
-                modifier = Modifier.padding(padding)
-            ) {
-                composable(NavigationItem.SignUpDestination.route) {
-                    SignUpRoute(
-                        signUpViewModel = getViewModel(),
-                        onNavigateToHomeScreen = {
-                            navController.navigate(NavigationItem.HomeDestination.route)
-                        }
-                    )
-                }
-                composable(NavigationItem.HomeDestination.route) {
-                    HomeScreenRoute(homeScreenViewModel = getViewModel())
-                }
-            }
-        }
-    }
-    */
-
-
 }

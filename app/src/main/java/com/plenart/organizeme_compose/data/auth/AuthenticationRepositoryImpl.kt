@@ -2,16 +2,12 @@ package com.plenart.organizeme_compose.data.auth
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuth.AuthStateListener
-import com.google.firebase.auth.FirebaseAuthException
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.plenart.organizeme_compose.data.user.FIRESTORE_COLLECTION_USERS
 import com.plenart.organizeme_compose.model.User
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
 class AuthenticationRepositoryImpl(
@@ -19,62 +15,61 @@ class AuthenticationRepositoryImpl(
     private val firestore: FirebaseFirestore
 ) : AuthenticationRepository {
 
-    var operationSuccessful = false
+    override val isUserAuthenticated: Boolean
+        get() = auth.currentUser != null
 
-    override val currentUser: FirebaseUser?
-        get() = auth.currentUser
+    override val currentUserId: String
+        get() = auth.currentUser?.uid.orEmpty()
 
-    override fun isUserAuthenticated(): Boolean = auth.currentUser != null
-
-    override suspend fun getAuthState(): Flow<Boolean> = callbackFlow {
-        Log.i("TAG", "Current user: ${auth.currentUser.toString()}")
-
-        val authStateListener = AuthStateListener {
-            trySend(auth.currentUser == null)           //add try catch block
+    override val currentUser: Flow<User>
+        get() = callbackFlow {
+            val listener = FirebaseAuth.AuthStateListener { auth ->
+                trySend(auth.currentUser?.let { User(id = it.uid) } ?: User())
+            }
+            auth.addAuthStateListener(listener)
+            awaitClose { auth.removeAuthStateListener(listener) }
         }
-        auth.addAuthStateListener(authStateListener)
-        awaitClose {
-            auth.removeAuthStateListener(authStateListener)
-        }
+
+    override suspend fun signUp(email: String, password: String) {
+        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
+            Log.i("AuthRepoImpl", "Signup listener, user: ${it.user?.email.toString()}")
+            Log.i("AuthRepoImpl", "Signup listener, user: ${it.user?.uid.toString()}")
+        }.addOnFailureListener {
+            Log.i("AuthRepoImpl", "sign up onFailureListener: ${it.localizedMessage?.toString()}")
+        }.await()
+
     }
 
-    override suspend fun firebaseSignUp(
+    override suspend fun createUserDocumentInCollection(
         name: String,
         email: String,
         password: String
-    ): Flow<AuthResponse<Boolean>> = flow {
-        operationSuccessful = false
-
-        try {
-            emit(AuthResponse.Loading)
-            auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-                operationSuccessful = true
-                Log.i(
-                    "FIREBASE",
-                    "AuthRepoImpl, signup success listener, operationsucces: $operationSuccessful"
-                )
-            }.await()
-
-            if (operationSuccessful) {
-                val userId = auth.currentUser?.uid!!
-                val userObj = User(id = userId, name = name, email = email, password = password)
-                firestore.collection(FIRESTORE_COLLECTION_USERS).document(userId).set(userObj)
-                    .addOnSuccessListener {
-                        Log.i(
-                            "FIREBASE",
-                            "AuthRepoImpl,firestore document add success listener, operationsucces: ${userObj.toString()}"
-                        )
-                    }.await()
-                emit(AuthResponse.Success(operationSuccessful))
-            } else {
-                emit(AuthResponse.Success(operationSuccessful))
-            }
-        } catch (e: FirebaseAuthException) {
-            Log.i(
-                "FIREBASE",
-                "AuthRepoImpl,ERROR: ${e.errorCode}, msg hehe: ${e.localizedMessage}"
-            )
-            emit(AuthResponse.Success(operationSuccessful))
+    ) {
+        val userObj = if (currentUserId.isNotEmpty()) {
+            User(id = currentUserId, name = name, email = email, password = password)
+        } else {
+            throw IllegalArgumentException("createUserDocumentInCollection error, user obj not created due to id being empty")
         }
+
+        firestore.collection(FIRESTORE_COLLECTION_USERS)
+            .document(currentUserId)
+            .set(userObj)
+            .addOnSuccessListener {
+                Log.i(
+                    "AuthRepoImpl",
+                    "AuthRepoImpl,firestore document add success listener, user ID: $currentUserId, "
+                )
+            }.addOnFailureListener {
+                Log.i("AuthRepoImpl", "firebase on fail list: ${it.localizedMessage}")
+            }
+            .await()
+    }
+
+    override suspend fun signIn(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).await()
+    }
+
+    override suspend fun signOut() {
+        auth.signOut()
     }
 }

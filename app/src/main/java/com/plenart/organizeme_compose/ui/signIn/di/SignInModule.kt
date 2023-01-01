@@ -10,6 +10,7 @@ import org.koin.dsl.module
 val signInModule = module {
     viewModel {
         SignInViewModel(
+            authRepository = get(),
             emailValidator = get(named(VALIDATOR_EMAIL_QUALIFIER)),
             passwordValidator = get(named(VALIDATOR_PASSWORD_QUALIFIER))
         )

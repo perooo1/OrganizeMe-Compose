@@ -14,6 +14,21 @@ import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewStat
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 @Composable
+fun SignInRoute(viewModel: SignInViewModel, onNavigateToHomeScreen: () -> Unit) {
+    val viewState = viewModel.viewState
+
+    SignInScreen(
+        credentialsInputCardViewState = viewState,
+        onEmailChange = { viewModel.onEmailChanged(it) },
+        onPasswordChange = { viewModel.onPasswordChanged(it) },
+        onButtonAction = {
+            viewModel.signIn()
+            onNavigateToHomeScreen()
+        }
+    )
+}
+
+@Composable
 fun SignInScreen(
     credentialsInputCardViewState: CredentialsInputCardViewState,
     onEmailChange: (String) -> Unit,
