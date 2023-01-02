@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -12,15 +13,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.navigation.NavigationItem
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerBody
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerHeader
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.MenuItem
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.MenuIcon
+import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBar
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
 import com.plenart.organizeme_compose.ui.signIn.SignInRoute
@@ -35,39 +38,54 @@ fun MainScreen() {
 
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
-    val showMenuIcon = navBackStackEntry?.destination?.route == NavigationItem.HomeDestination.route
+
+    val showTobBarOrMenuIcon =
+        navBackStackEntry?.destination?.route == NavigationItem.HomeDestination.route
 
     androidx.compose.material.Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopBar(navigationIcon = {
-                if (showMenuIcon) {
-                    MenuIcon(
+            if (showTobBarOrMenuIcon) {
+                TopBar(navigationIcon = {
+                    TopBarIcon(
                         onIconAction = {
                             scope.launch {
                                 scaffoldState.drawerState.open()
                             }
-                        }
+                        },
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = stringResource(id = R.string.top_bar_menu_icon)
                     )
-                }
-            })
+                })
+            }
         },
         drawerContent = {
             DrawerHeader()
             DrawerBody(
                 items = listOf(
                     MenuItem(
-                        id = "sign_out",
-                        title = "Sign Out",
+                        id = stringResource(id = R.string.menu_item_sign_out_id),
+                        idInResourceFile = R.string.menu_item_sign_out_id,
+                        title = stringResource(id = R.string.sign_out),
                         icon = Icons.Default.ExitToApp,
-                        contentDesc = "Sign out action"
+                        contentDesc = stringResource(id = R.string.sign_out)
                     )
                 ), onItemAction = {
-                    when (it.id) {
-                        "sign_out" -> {
+                    when (it.idInResourceFile) {
+                        R.string.menu_item_sign_out_id -> {
                             Log.i("MainScreen", "Sign out button in drawer clicked")
                         }
                     }
+                    /*
+                    when (it.id) {
+                        "sign_out" -> {
+                            Log.i("MainScreen", "Sign out button in drawer clicked")
+
+
+                        }
+                    }
+                    */
+
                 }
             )
         }
@@ -78,7 +96,7 @@ fun MainScreen() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = NavigationItem.SignUpDestination.route,
+                startDestination = NavigationItem.SignInDestination.route,
                 modifier = Modifier.padding(padding)
             ) {
                 composable(NavigationItem.SignUpDestination.route) {
