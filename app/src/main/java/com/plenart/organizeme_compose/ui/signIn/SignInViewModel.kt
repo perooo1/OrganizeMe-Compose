@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.signIn
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -46,7 +47,6 @@ class SignInViewModel(
         }
 
         if (emailValid.successful && passwordValid.successful) {
-
             viewModelScope.launch {
                 authRepository.signIn(viewState.email, viewState.password)
             }

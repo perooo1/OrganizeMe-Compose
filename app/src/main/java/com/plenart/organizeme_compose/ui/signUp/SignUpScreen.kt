@@ -3,6 +3,7 @@ package com.plenart.organizeme_compose.ui.signUp
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,10 +13,13 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToSignInScreen: () -> Unit) {
     val viewState = signUpViewModel.viewState
+    val scope = rememberCoroutineScope()
 
     SignupScreen(
         viewState = viewState,
@@ -23,8 +27,13 @@ fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToSignInScreen: () -
         onPasswordChange = { signUpViewModel.onPasswordChanged(it) },
         onButtonAction = {
             signUpViewModel.signUp()
-            signUpViewModel.signOut()       //mby switch call to viewmodel itself
-            onNavigateToSignInScreen()
+
+            if (signUpViewModel.validationSuccessful) {
+                scope.launch {
+                    delay(1000L)
+                    onNavigateToSignInScreen()
+                }
+            }
         },
         onNameChange = {
             signUpViewModel.onNameChanged(it)

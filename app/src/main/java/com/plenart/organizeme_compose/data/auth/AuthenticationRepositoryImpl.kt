@@ -50,6 +50,7 @@ class AuthenticationRepositoryImpl(
         } else {
             throw IllegalArgumentException("createUserDocumentInCollection error, user obj not created due to id being empty")
         }
+        Log.i("AuthRepoImpl", "inside create user doc function userobj = ${userObj.id.toString()}, userobj id: ${userObj.id} ")
 
         firestore.collection(FIRESTORE_COLLECTION_USERS)
             .document(currentUserId)

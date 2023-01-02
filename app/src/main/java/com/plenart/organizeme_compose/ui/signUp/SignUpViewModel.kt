@@ -1,5 +1,6 @@
 package com.plenart.organizeme_compose.ui.signUp
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.plenart.organizeme_compose.data.auth.AuthenticationRepository
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.validation.Validator
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
@@ -19,6 +21,8 @@ class SignUpViewModel(
 
     var viewState by mutableStateOf(CredentialsInputCardViewState())
         private set
+
+    var validationSuccessful by mutableStateOf(false)
 
     fun onNameChanged(newName: String) {
         viewState = viewState.copy(name = newName)
@@ -43,8 +47,28 @@ class SignUpViewModel(
         val emailValid = emailValidator.execute(viewState.email)
         val passwordValid = passwordValidator.execute(viewState.password)
 
-        viewModelScope.launch {
-            if (nameValid.successful && emailValid.successful && passwordValid.successful) {
+        if (!nameValid.successful) {
+            viewState = viewState.copy(nameError = nameValid.errorMessage)
+        } else {
+            viewState = viewState.copy(nameError = null)
+        }
+
+        if (!emailValid.successful) {
+            viewState = viewState.copy(emailError = emailValid.errorMessage)
+        } else {
+            viewState = viewState.copy(emailError = null)
+        }
+
+        if (!passwordValid.successful) {
+            viewState = viewState.copy(passwordError = passwordValid.errorMessage)
+        } else {
+            viewState = viewState.copy(passwordError = null)
+        }
+
+        if (nameValid.successful && emailValid.successful && passwordValid.successful) {
+            validationSuccessful = true
+
+            viewModelScope.launch {
                 authRepository.signUp(viewState.email, viewState.password)
                 authRepository.createUserDocumentInCollection(
                     viewState.name,
