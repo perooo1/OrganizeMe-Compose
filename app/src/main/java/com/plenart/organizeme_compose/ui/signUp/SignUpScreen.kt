@@ -30,7 +30,7 @@ fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToSignInScreen: () -
 
             if (signUpViewModel.validationSuccessful) {
                 scope.launch {
-                    delay(1000L)
+                    delay(1500L)
                     onNavigateToSignInScreen()
                 }
             }

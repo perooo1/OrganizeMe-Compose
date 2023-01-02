@@ -31,3 +31,22 @@ val SignInSignUpButtonText = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold
 )
+
+val IntroAppName = TextStyle(
+    fontSize = 32.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Bold,
+)
+
+val IntroHeroText = TextStyle(
+    fontSize = 25.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Light,
+)
+
+val IntroDescription = TextStyle(
+    fontSize = 16.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    color = androidx.compose.ui.graphics.Color.Gray
+)

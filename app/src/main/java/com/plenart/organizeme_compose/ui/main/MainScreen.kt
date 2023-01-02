@@ -26,6 +26,7 @@ import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigati
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBar
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
+import com.plenart.organizeme_compose.ui.intro.IntroScreenRoute
 import com.plenart.organizeme_compose.ui.signIn.SignInRoute
 import com.plenart.organizeme_compose.ui.signUp.SignUpRoute
 import kotlinx.coroutines.launch
@@ -39,13 +40,13 @@ fun MainScreen() {
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    val showTobBarOrMenuIcon =
+    val showTopBar =
         navBackStackEntry?.destination?.route == NavigationItem.HomeDestination.route
 
     androidx.compose.material.Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            if (showTobBarOrMenuIcon) {
+            if (showTopBar) {
                 TopBar(navigationIcon = {
                     TopBarIcon(
                         onIconAction = {
@@ -76,16 +77,6 @@ fun MainScreen() {
                             Log.i("MainScreen", "Sign out button in drawer clicked")
                         }
                     }
-                    /*
-                    when (it.id) {
-                        "sign_out" -> {
-                            Log.i("MainScreen", "Sign out button in drawer clicked")
-
-
-                        }
-                    }
-                    */
-
                 }
             )
         }
@@ -96,9 +87,19 @@ fun MainScreen() {
         ) {
             NavHost(
                 navController = navController,
-                startDestination = NavigationItem.SignInDestination.route,
+                startDestination = NavigationItem.IntroDestination.route,
                 modifier = Modifier.padding(padding)
             ) {
+                composable(NavigationItem.IntroDestination.route) {
+                    IntroScreenRoute(
+                        onSignUpButtonAction = {
+                            navController.navigate(NavigationItem.SignUpDestination.route)
+                        },
+                        onSignInButtonAction = {
+                            navController.navigate(NavigationItem.SignInDestination.route)
+                        }
+                    )
+                }
                 composable(NavigationItem.SignUpDestination.route) {
                     SignUpRoute(
                         signUpViewModel = getViewModel(),
@@ -115,6 +116,7 @@ fun MainScreen() {
                         onNavigateToHomeScreen = {
                             navController.navigate(NavigationItem.HomeDestination.route) {
                                 popUpTo(NavigationItem.SignInDestination.route) { inclusive = true }
+                                popUpTo(NavigationItem.IntroDestination.route) { inclusive = true }
                             }
                         }
                     )
