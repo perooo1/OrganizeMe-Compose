@@ -3,6 +3,7 @@ package com.plenart.organizeme_compose
 import android.app.Application
 import android.util.Log
 import com.plenart.organizeme_compose.data.auth.di.authenticationRepositoryModule
+import com.plenart.organizeme_compose.data.board.di.boardModule
 import com.plenart.organizeme_compose.data.di.firebaseModule
 import com.plenart.organizeme_compose.data.user.di.userRepositoryModule
 import com.plenart.organizeme_compose.ui.homeScreen.di.homeScreenModule
@@ -28,7 +29,8 @@ class OrganizeMeComposeApp : Application() {
                 firebaseModule,
                 authenticationRepositoryModule,
                 userRepositoryModule,
-                homeScreenModule
+                homeScreenModule,
+                boardModule
             )
         }
         Log.d("OrganizeMeCompose", "App started")

@@ -6,6 +6,10 @@ import org.koin.dsl.module
 
 val homeScreenModule = module {
     viewModel {
-        HomeScreenViewModel(authRepository = get(), userRepository = get())
+        HomeScreenViewModel(
+            authRepository = get(),
+            userRepository = get(),
+            boardRepository = get()
+        )
     }
 }
