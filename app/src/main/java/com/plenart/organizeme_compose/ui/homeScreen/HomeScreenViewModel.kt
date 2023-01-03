@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.ui.homeScreen
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.plenart.organizeme_compose.data.auth.AuthenticationRepository
@@ -8,8 +7,12 @@ import com.plenart.organizeme_compose.data.board.BoardRepository
 import com.plenart.organizeme_compose.data.user.UserRepository
 import com.plenart.organizeme_compose.model.Board
 import com.plenart.organizeme_compose.model.User
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+
+private const val STOP_TIMEOUT_MILIS = 5000L
 
 class HomeScreenViewModel(
     private val authRepository: AuthenticationRepository,
@@ -23,20 +26,17 @@ class HomeScreenViewModel(
         emit(userRepository.getUserDetails(userId))
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
+        started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILIS),
         initialValue = User()
     )
-
 
     val userBoards = flow {
         emit(boardRepository.getBoardsAssignedToCurrentUser(userId))
     }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = emptyList()
+        started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILIS),
+        initialValue = emptyList<Board>()
     )
-
-
 
     fun getUserInfo() {
         if (userId.isNotEmpty()) {
@@ -46,24 +46,18 @@ class HomeScreenViewModel(
         }
     }
 
-    fun createBoard() {
-
+    fun createBoard() {                 //This function is currently used for testing and adding boards, ideally should be in it's own screen and according viewmodel
         if (userId.isNotEmpty()) {
-
-            val boardName = "test board name"
+            val boardName = "Compose app testing"
             val assignedUsers = mutableListOf<String>()
             assignedUsers.add(userId)
 
             val board =
                 Board(name = boardName, createdBy = userId, assignedTo = assignedUsers.toList())
 
-            Log.i("HomeScreenViewModel","createBoard fun, board: ${board.toString()}")
-            Log.i("HomeScreenViewModel","createBoard fun, board assigned users: ${board.assignedTo.toString()}")
             viewModelScope.launch {
                 boardRepository.createBoard(board)
             }
         }
-
     }
-
 }

@@ -50,3 +50,10 @@ val IntroDescription = TextStyle(
     fontWeight = FontWeight.Normal,
     color = androidx.compose.ui.graphics.Color.Gray
 )
+
+val SignUpSignInDescription = TextStyle(
+    fontSize = 20.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.Normal,
+    color = androidx.compose.ui.graphics.Color.Gray
+)

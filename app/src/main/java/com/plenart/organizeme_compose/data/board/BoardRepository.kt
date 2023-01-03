@@ -5,4 +5,6 @@ import com.plenart.organizeme_compose.model.Board
 interface BoardRepository {
     suspend fun createBoard(board: Board)
     suspend fun getBoardsAssignedToCurrentUser(userId: String): List<Board>
+
+    //fun getBoardsAssignedToCurrentUser(userId: String): Flow<QuerySnapshot>       //just trying out
 }

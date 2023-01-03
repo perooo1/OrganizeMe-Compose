@@ -2,6 +2,8 @@ package com.plenart.organizeme_compose.ui.intro
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -34,18 +36,20 @@ fun IntroScreen(
     onSignInButtonAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scrollState = rememberScrollState()
     Box(modifier = modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.intro_background),
             contentDescription = stringResource(
                 id = R.string.intro_background_image
             ),
-            contentScale = ContentScale.FillHeight
+            contentScale = ContentScale.Crop
         )
         Column(
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
+                .verticalScroll(scrollState)
                 .fillMaxWidth()
                 .padding(top = LocalSpacing.current.extraLarge)
         ) {

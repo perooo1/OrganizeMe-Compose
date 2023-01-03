@@ -23,8 +23,8 @@ import com.plenart.organizeme_compose.navigation.NavigationItem
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerBody
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerHeader
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.MenuItem
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBar
+import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
 import com.plenart.organizeme_compose.ui.intro.IntroScreenRoute
 import com.plenart.organizeme_compose.ui.signIn.SignInRoute
@@ -40,13 +40,13 @@ fun MainScreen() {
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-    val showTopBar =
+    val isCurrentDestinationHome =
         navBackStackEntry?.destination?.route == NavigationItem.HomeDestination.route
 
     androidx.compose.material.Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            if (showTopBar) {
+            if (isCurrentDestinationHome) {
                 TopBar(navigationIcon = {
                     TopBarIcon(
                         onIconAction = {

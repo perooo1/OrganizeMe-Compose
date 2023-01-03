@@ -19,20 +19,23 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.model.Board
 
 @Composable
-fun HomeScreenRoute(
-    homeScreenViewModel: HomeScreenViewModel
-) {
-
+fun HomeScreenRoute(homeScreenViewModel: HomeScreenViewModel) {
     homeScreenViewModel.getUserInfo()
 
     val userDataState = homeScreenViewModel.userData.collectAsState()
     val boards by homeScreenViewModel.userBoards.collectAsState()
 
-
     if (userDataState.value != null) {
-        HomeScreen(userDataState.value!!.name, boards, { homeScreenViewModel.createBoard() })
+        HomeScreen(
+            userName = userDataState.value!!.name,
+            boards = boards,
+            onButtonAction = { homeScreenViewModel.createBoard() })
     } else {
-        HomeScreen(userName = "Trenutno nuill", boards, {})
+        HomeScreen(
+            userName = "Trenutno null",
+            boards = boards,
+            onButtonAction = {}
+        )
     }
 }
 
@@ -67,7 +70,6 @@ fun HomeScreen(
                 Text(text = board.documentID)
             }
         }
-
     }
 }
 
