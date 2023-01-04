@@ -122,7 +122,12 @@ fun MainScreen() {
                     )
                 }
                 composable(NavigationItem.HomeDestination.route) {
-                    HomeScreenRoute(homeScreenViewModel = getViewModel())
+                    HomeScreenRoute(
+                        homeScreenViewModel = getViewModel(),
+                         onBoardAction = {
+                             Log.i("MainScreen", "Board item clicked")
+                         }
+                    )
                 }
             }
         }

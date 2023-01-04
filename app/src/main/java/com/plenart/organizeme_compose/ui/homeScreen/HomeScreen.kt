@@ -16,34 +16,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
-import com.plenart.organizeme_compose.model.Board
+import com.plenart.organizeme_compose.ui.components.ItemBoard
+import com.plenart.organizeme_compose.ui.components.ItemBoardViewState
 
 @Composable
-fun HomeScreenRoute(homeScreenViewModel: HomeScreenViewModel) {
+fun HomeScreenRoute(
+    homeScreenViewModel: HomeScreenViewModel,
+    onBoardAction: () -> Unit
+) {
     homeScreenViewModel.getUserInfo()
 
     val userDataState = homeScreenViewModel.userData.collectAsState()
-    val boards by homeScreenViewModel.userBoards.collectAsState()
+    val viewState by homeScreenViewModel.homeScreenViewState.collectAsState()
 
     if (userDataState.value != null) {
         HomeScreen(
+            viewState = viewState,
             userName = userDataState.value!!.name,
-            boards = boards,
-            onButtonAction = { homeScreenViewModel.createBoard() })
+            onButtonAction = { homeScreenViewModel.createBoard() },
+            onBoardAction = { onBoardAction() }
+        )
     } else {
         HomeScreen(
+            viewState = viewState,
             userName = "Trenutno null",
-            boards = boards,
-            onButtonAction = {}
+            onButtonAction = {},
+            onBoardAction = { onBoardAction() }
         )
     }
 }
 
 @Composable
 fun HomeScreen(
+    viewState: HomeScreenViewState,
     userName: String,
-    boards: List<Board>,
     onButtonAction: () -> Unit,
+    onBoardAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -59,15 +67,21 @@ fun HomeScreen(
         Button(onClick = { onButtonAction() }) {
             Text(text = "create board")
         }
-        LazyColumn() {
+        LazyColumn {
             items(
-                items = boards,
+                items = viewState.boards,
                 key = { board ->
-                    board.documentID
+                    board.boardId
                 }
             ) { board ->
-                Text(text = board.name)
-                Text(text = board.documentID)
+                ItemBoard(
+                    viewState = ItemBoardViewState(
+                        boardId = board.boardId,
+                        boardName = board.boardName,
+                        createdBy = board.createdBy
+                    ),
+                    onBoardAction = { onBoardAction() }
+                )
             }
         }
     }
@@ -76,5 +90,6 @@ fun HomeScreen(
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen("this is homescreen placeholder txt", emptyList(), {})
+    val viewState = HomeScreenViewState(emptyList())
+    HomeScreen(viewState, "this is homescreen placeholder txt", {}, {})
 }

@@ -7,9 +7,8 @@ import com.plenart.organizeme_compose.data.board.BoardRepository
 import com.plenart.organizeme_compose.data.user.UserRepository
 import com.plenart.organizeme_compose.model.Board
 import com.plenart.organizeme_compose.model.User
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
+import com.plenart.organizeme_compose.ui.homeScreen.mapper.HomeScreenMapper
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 private const val STOP_TIMEOUT_MILIS = 5000L
@@ -17,7 +16,8 @@ private const val STOP_TIMEOUT_MILIS = 5000L
 class HomeScreenViewModel(
     private val authRepository: AuthenticationRepository,
     private val userRepository: UserRepository,
-    private val boardRepository: BoardRepository
+    private val boardRepository: BoardRepository,
+    private val mapper: HomeScreenMapper
 ) : ViewModel() {
 
     private val userId = authRepository.currentUserId
@@ -30,13 +30,18 @@ class HomeScreenViewModel(
         initialValue = User()
     )
 
-    val userBoards = flow {
+    private val userBoards = flow {
         emit(boardRepository.getBoardsAssignedToCurrentUser(userId))
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILIS),
-        initialValue = emptyList<Board>()
-    )
+    }
+
+    val homeScreenViewState: StateFlow<HomeScreenViewState> =
+        userBoards.map { boards ->
+            mapper.toHomeScreenViewState(boards)
+        }.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILIS),
+            initialValue = HomeScreenViewState(emptyList())
+        )
 
     fun getUserInfo() {
         if (userId.isNotEmpty()) {
@@ -48,7 +53,7 @@ class HomeScreenViewModel(
 
     fun createBoard() {                 //This function is currently used for testing and adding boards, ideally should be in it's own screen and according viewmodel
         if (userId.isNotEmpty()) {
-            val boardName = "Compose app testing"
+            val boardName = "najnovije srijeda"
             val assignedUsers = mutableListOf<String>()
             assignedUsers.add(userId)
 
