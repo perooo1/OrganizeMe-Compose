@@ -13,6 +13,7 @@
     <string name="top_bar_menu_icon">Top bar menu icon</string>
     <string name="board_img_placeholder">Board Image placeholder</string>
     <string name="add_board_fab">Add board FAB</string>
+    <string name="drawer_header_background_img">Drawer header background image</string>
     <!--- Menu Item id's -->
     <string name="menu_item_sign_out_id">sign_out</string>
     <!--- Misc -->

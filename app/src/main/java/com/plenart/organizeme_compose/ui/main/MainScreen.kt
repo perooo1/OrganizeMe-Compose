@@ -99,6 +99,12 @@ fun MainScreen() {
                             navController.navigate(
                                 BoardDetailsDestination.createNavigationRoute(boardId)
                             )
+                        },
+                        onNavigateToIntroScreen = {
+                            navController.navigate(NavigationItem.IntroDestination.route){
+                                popUpTo(NavigationItem.HomeDestination.route) { inclusive = true }
+                                popUpTo(BoardDetailsDestination.route) { inclusive = true }
+                            }
                         }
                     )
                 }

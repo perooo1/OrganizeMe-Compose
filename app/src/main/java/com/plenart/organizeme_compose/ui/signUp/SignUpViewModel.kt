@@ -34,12 +34,6 @@ class SignUpViewModel(
         viewState = viewState.copy(password = newPwd)
     }
 
-    fun signOut() {
-        viewModelScope.launch {
-            authRepository.signOut()
-        }
-    }
-
     fun signUp() {
         val nameValid = nameValidator.execute(viewState.email)
         val emailValid = emailValidator.execute(viewState.email)

@@ -35,7 +35,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreenRoute(
     homeScreenViewModel: HomeScreenViewModel,
-    onNavigateToBoardDetails: (String) -> Unit
+    onNavigateToBoardDetails: (String) -> Unit,
+    onNavigateToIntroScreen: () -> Unit,
 ) {
     homeScreenViewModel.getUserInfo()
 
@@ -46,15 +47,25 @@ fun HomeScreenRoute(
         HomeScreen(
             viewState = viewState,
             userName = userDataState.value!!.name,
+            userEmail = userDataState.value!!.email,
             onButtonAction = { homeScreenViewModel.createBoard() },
-            onBoardAction = { onNavigateToBoardDetails(it) }
+            onBoardAction = { onNavigateToBoardDetails(it) },
+            onSignOutButtonAction = {
+                homeScreenViewModel.signOut()
+                onNavigateToIntroScreen()
+            }
         )
     } else {
         HomeScreen(
             viewState = viewState,
             userName = "Trenutno null",
+            userEmail = "Trenutno null",
             onButtonAction = {},
-            onBoardAction = { onNavigateToBoardDetails(it) }
+            onBoardAction = { onNavigateToBoardDetails(it) },
+            onSignOutButtonAction = {
+                homeScreenViewModel.signOut()
+                onNavigateToIntroScreen()
+            }
         )
     }
 }
@@ -64,8 +75,10 @@ fun HomeScreenRoute(
 fun HomeScreen(
     viewState: HomeScreenViewState,
     userName: String,
+    userEmail: String,
     onButtonAction: () -> Unit,
     onBoardAction: (String) -> Unit,
+    onSignOutButtonAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -75,7 +88,7 @@ fun HomeScreen(
         drawerState = drawerState,
         drawerContent = {
             ModalDrawerSheet {
-                DrawerHeader()
+                DrawerHeader(userName, userEmail)
                 DrawerBody(
                     items = listOf(
                         MenuItem(
@@ -89,6 +102,7 @@ fun HomeScreen(
                         when (it.idInResourceFile) {
                             R.string.menu_item_sign_out_id -> {
                                 Log.i("MainScreen", "Sign out button in drawer clicked")
+                                onSignOutButtonAction()
                             }
                         }
                     }
@@ -181,5 +195,12 @@ fun NoBoardsAssigned(modifier: Modifier = Modifier) {
 @Composable
 fun HomeScreenPreview() {
     val viewState = HomeScreenViewState(emptyList())
-    HomeScreen(viewState, "this is homescreen placeholder txt", {}, {})
+    HomeScreen(
+        viewState = viewState,
+        userName = "username",
+        userEmail = "email",
+        onButtonAction = {},
+        onSignOutButtonAction = {},
+        onBoardAction = {}
+    )
 }
