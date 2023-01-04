@@ -6,6 +6,7 @@ import com.plenart.organizeme_compose.data.auth.di.authenticationRepositoryModul
 import com.plenart.organizeme_compose.data.board.di.boardModule
 import com.plenart.organizeme_compose.data.di.firebaseModule
 import com.plenart.organizeme_compose.data.user.di.userRepositoryModule
+import com.plenart.organizeme_compose.ui.boardDetails.di.boardDetailsModule
 import com.plenart.organizeme_compose.ui.homeScreen.di.homeScreenModule
 import com.plenart.organizeme_compose.ui.signIn.di.signInModule
 import com.plenart.organizeme_compose.ui.signUp.di.signUpModule
@@ -30,7 +31,8 @@ class OrganizeMeComposeApp : Application() {
                 authenticationRepositoryModule,
                 userRepositoryModule,
                 homeScreenModule,
-                boardModule
+                boardModule,
+                boardDetailsModule
             )
         }
         Log.d("OrganizeMeCompose", "App started")

@@ -22,7 +22,7 @@ import com.plenart.organizeme_compose.ui.components.ItemBoardViewState
 @Composable
 fun HomeScreenRoute(
     homeScreenViewModel: HomeScreenViewModel,
-    onBoardAction: () -> Unit
+    onNavigateToBoardDetails: (String) -> Unit
 ) {
     homeScreenViewModel.getUserInfo()
 
@@ -34,14 +34,14 @@ fun HomeScreenRoute(
             viewState = viewState,
             userName = userDataState.value!!.name,
             onButtonAction = { homeScreenViewModel.createBoard() },
-            onBoardAction = { onBoardAction() }
+            onBoardAction = { onNavigateToBoardDetails(it) }
         )
     } else {
         HomeScreen(
             viewState = viewState,
             userName = "Trenutno null",
             onButtonAction = {},
-            onBoardAction = { onBoardAction() }
+            onBoardAction = { onNavigateToBoardDetails(it) }
         )
     }
 }
@@ -51,7 +51,7 @@ fun HomeScreen(
     viewState: HomeScreenViewState,
     userName: String,
     onButtonAction: () -> Unit,
-    onBoardAction: () -> Unit,
+    onBoardAction: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -80,7 +80,7 @@ fun HomeScreen(
                         boardName = board.boardName,
                         createdBy = board.createdBy
                     ),
-                    onBoardAction = { onBoardAction() }
+                    onBoardAction = { onBoardAction(board.boardId) }
                 )
             }
         }

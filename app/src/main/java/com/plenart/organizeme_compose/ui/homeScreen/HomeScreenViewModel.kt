@@ -53,7 +53,7 @@ class HomeScreenViewModel(
 
     fun createBoard() {                 //This function is currently used for testing and adding boards, ideally should be in it's own screen and according viewmodel
         if (userId.isNotEmpty()) {
-            val boardName = "najnovije srijeda"
+            val boardName = "Nakon board detailsaa"
             val assignedUsers = mutableListOf<String>()
             assignedUsers.add(userId)
 

@@ -27,11 +27,18 @@ class BoardRepositoryImpl(
             .get()
             .await()
 
-        for(s in snapshot.documents){
+        for (s in snapshot.documents) {
             val board = s.toObject(Board::class.java)!!     //beware of !! !
             board.documentID = s.id
             boards.add(board)
         }
         return boards.toList()
     }
+
+    override suspend fun getBoardById(boardId: String): Board? =
+        firestore.collection(FIRESTORE_COLLECTION_BOARDS)
+            .document(boardId)
+            .get()
+            .await()
+            .toObject(Board::class.java)
 }

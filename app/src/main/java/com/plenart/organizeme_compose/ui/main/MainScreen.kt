@@ -14,12 +14,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.plenart.organizeme_compose.R
+import com.plenart.organizeme_compose.navigation.BOARD_ID_KEY
+import com.plenart.organizeme_compose.navigation.BoardDetailsDestination
 import com.plenart.organizeme_compose.navigation.NavigationItem
+import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsRoute
+import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsViewModel
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerBody
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerHeader
 import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.MenuItem
@@ -31,6 +37,7 @@ import com.plenart.organizeme_compose.ui.signIn.SignInRoute
 import com.plenart.organizeme_compose.ui.signUp.SignUpRoute
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 
 @Composable
 fun MainScreen() {
@@ -124,10 +131,22 @@ fun MainScreen() {
                 composable(NavigationItem.HomeDestination.route) {
                     HomeScreenRoute(
                         homeScreenViewModel = getViewModel(),
-                         onBoardAction = {
-                             Log.i("MainScreen", "Board item clicked")
-                         }
+                        onNavigateToBoardDetails = { boardId ->
+                            navController.navigate(
+                                BoardDetailsDestination.createNavigationRoute(boardId)
+                            )
+                        }
                     )
+                }
+                composable(
+                    route = BoardDetailsDestination.route,
+                    arguments = listOf(navArgument(BOARD_ID_KEY) { type = NavType.StringType })
+                ) {
+                    val boardId = it.arguments?.getString(BOARD_ID_KEY)
+                    val boardDetailsViewModel =
+                        getViewModel<BoardDetailsViewModel>(parameters = { parametersOf(boardId) })
+
+                    BoardDetailsRoute(boardDetailsViewModel)
                 }
             }
         }
