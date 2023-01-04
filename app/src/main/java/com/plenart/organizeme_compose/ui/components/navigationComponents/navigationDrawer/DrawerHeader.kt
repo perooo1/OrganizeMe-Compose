@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer
+package com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.sp
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 @Composable
-fun DrawerHeader() {
+fun DrawerHeader(modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(vertical = LocalSpacing.current.extraLarge),
         contentAlignment = Alignment.Center

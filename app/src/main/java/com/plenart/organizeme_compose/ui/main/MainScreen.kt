@@ -4,14 +4,10 @@ import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
@@ -26,66 +22,34 @@ import com.plenart.organizeme_compose.navigation.BoardDetailsDestination
 import com.plenart.organizeme_compose.navigation.NavigationItem
 import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsRoute
 import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsViewModel
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerBody
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.DrawerHeader
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer.MenuItem
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBar
-import com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar.TopBarIcon
+import com.plenart.organizeme_compose.ui.components.navigationComponents.fab.FloatingButton
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
 import com.plenart.organizeme_compose.ui.intro.IntroScreenRoute
 import com.plenart.organizeme_compose.ui.signIn.SignInRoute
 import com.plenart.organizeme_compose.ui.signUp.SignUpRoute
-import kotlinx.coroutines.launch
+import com.plenart.organizeme_compose.ui.theme.Teal200
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState()
-
     val isCurrentDestinationHome =
         navBackStackEntry?.destination?.route == NavigationItem.HomeDestination.route
 
-    androidx.compose.material.Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
+    Scaffold(
+        floatingActionButton = {
             if (isCurrentDestinationHome) {
-                TopBar(navigationIcon = {
-                    TopBarIcon(
-                        onIconAction = {
-                            scope.launch {
-                                scaffoldState.drawerState.open()
-                            }
-                        },
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = stringResource(id = R.string.top_bar_menu_icon)
-                    )
-                })
+                FloatingButton(
+                    containerColor = Teal200,
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(id = R.string.add_board_fab),
+                    onFloatingButtonAction = { Log.i("MainScreen", "FAB clicked") }
+                )
             }
-        },
-        drawerContent = {
-            DrawerHeader()
-            DrawerBody(
-                items = listOf(
-                    MenuItem(
-                        id = stringResource(id = R.string.menu_item_sign_out_id),
-                        idInResourceFile = R.string.menu_item_sign_out_id,
-                        title = stringResource(id = R.string.sign_out),
-                        icon = Icons.Default.ExitToApp,
-                        contentDesc = stringResource(id = R.string.sign_out)
-                    )
-                ), onItemAction = {
-                    when (it.idInResourceFile) {
-                        R.string.menu_item_sign_out_id -> {
-                            Log.i("MainScreen", "Sign out button in drawer clicked")
-                        }
-                    }
-                }
-            )
         }
     ) { padding ->
         Surface(
@@ -109,7 +73,7 @@ fun MainScreen() {
                 }
                 composable(NavigationItem.SignUpDestination.route) {
                     SignUpRoute(
-                        signUpViewModel = getViewModel(),
+                        viewModel = getViewModel(),
                         onNavigateToSignInScreen = {
                             navController.navigate(NavigationItem.SignInDestination.route) {
                                 popUpTo(NavigationItem.SignUpDestination.route) { inclusive = true }

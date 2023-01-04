@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.components.topLevelComposables.topBar
+package com.plenart.organizeme_compose.ui.components.navigationComponents.topBar
 
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable

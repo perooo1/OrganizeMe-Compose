@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer
+package com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer
 
 import androidx.compose.ui.graphics.vector.ImageVector
 

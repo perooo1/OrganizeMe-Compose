@@ -1,4 +1,4 @@
-package com.plenart.organizeme_compose.ui.components.topLevelComposables.navigationDrawer
+package com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*

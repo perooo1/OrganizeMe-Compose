@@ -1,14 +1,18 @@
 package com.plenart.organizeme_compose.ui.homeScreen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -18,9 +22,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.ItemBoard
 import com.plenart.organizeme_compose.ui.components.ItemBoardViewState
+import com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer.DrawerBody
+import com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer.DrawerHeader
+import com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer.MenuItem
+import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBar
+import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.theme.IntroDescription
 import com.plenart.organizeme_compose.ui.theme.IntroHeroText
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreenRoute(
@@ -49,6 +59,7 @@ fun HomeScreenRoute(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewState: HomeScreenViewState,
@@ -57,38 +68,84 @@ fun HomeScreen(
     onBoardAction: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize()
-    ) {
-        Text(text = userName)
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
-            contentDescription = "img"
-        )
-        Button(onClick = { onButtonAction() }) {
-            Text(text = "create board")
-        }
-        if (viewState.boards.isEmpty()) {
-            NoBoardsAssigned()
-        }
-        else{
-            LazyColumn {
-                items(
-                    items = viewState.boards,
-                    key = { board ->
-                        board.boardId
+    val scope = rememberCoroutineScope()
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet {
+                DrawerHeader()
+                DrawerBody(
+                    items = listOf(
+                        MenuItem(
+                            id = stringResource(id = R.string.menu_item_sign_out_id),
+                            idInResourceFile = R.string.menu_item_sign_out_id,
+                            title = stringResource(id = R.string.sign_out),
+                            icon = Icons.Default.ExitToApp,
+                            contentDesc = stringResource(id = R.string.sign_out)
+                        )
+                    ), onItemAction = {
+                        when (it.idInResourceFile) {
+                            R.string.menu_item_sign_out_id -> {
+                                Log.i("MainScreen", "Sign out button in drawer clicked")
+                            }
+                        }
                     }
-                ) { board ->
-                    ItemBoard(
-                        viewState = ItemBoardViewState(
-                            boardId = board.boardId,
-                            boardName = board.boardName,
-                            createdBy = board.createdBy
-                        ),
-                        onBoardAction = { onBoardAction(board.boardId) }
+                )
+            }
+        }
+    ) {
+        Scaffold(
+            topBar = {
+                TopBar(navigationIcon = {
+                    TopBarIcon(
+                        onIconAction = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        },
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = stringResource(id = R.string.top_bar_menu_icon)
                     )
+                })
+            }
+        ) { paddingValues ->
+            Column(
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = modifier
+                    .fillMaxSize()
+                    .padding(paddingValues)
+            ) {
+                Text(text = userName)
+                Image(
+                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    contentDescription = "img"
+                )
+                Button(onClick = { onButtonAction() }) {
+                    Text(text = "create board")
+                }
+                if (viewState.boards.isEmpty()) {
+                    NoBoardsAssigned()
+                } else {
+                    LazyColumn {
+                        items(
+                            items = viewState.boards,
+                            key = { board ->
+                                board.boardId
+                            }
+                        ) { board ->
+                            ItemBoard(
+                                viewState = ItemBoardViewState(
+                                    boardId = board.boardId,
+                                    boardName = board.boardName,
+                                    createdBy = board.createdBy
+                                ),
+                                onBoardAction = { onBoardAction(board.boardId) }
+                            )
+                        }
+                    }
                 }
             }
         }

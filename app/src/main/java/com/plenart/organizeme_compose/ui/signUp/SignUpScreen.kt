@@ -23,18 +23,18 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToSignInScreen: () -> Unit) {
-    val viewState = signUpViewModel.viewState
+fun SignUpRoute(viewModel: SignUpViewModel, onNavigateToSignInScreen: () -> Unit) {
+    val viewState = viewModel.viewState
     val scope = rememberCoroutineScope()
 
     SignupScreen(
         viewState = viewState,
-        onEmailChange = { signUpViewModel.onEmailChanged(it) },
-        onPasswordChange = { signUpViewModel.onPasswordChanged(it) },
+        onEmailChange = { viewModel.onEmailChanged(it) },
+        onPasswordChange = { viewModel.onPasswordChanged(it) },
         onButtonAction = {
-            signUpViewModel.signUp()
+            viewModel.signUp()
 
-            if (signUpViewModel.validationSuccessful) {
+            if (viewModel.validationSuccessful) {
                 scope.launch {
                     delay(1500L)
                     onNavigateToSignInScreen()
@@ -42,7 +42,7 @@ fun SignUpRoute(signUpViewModel: SignUpViewModel, onNavigateToSignInScreen: () -
             }
         },
         onNameChange = {
-            signUpViewModel.onNameChanged(it)
+            viewModel.onNameChanged(it)
         }
     )
 }
