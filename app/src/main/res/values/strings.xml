@@ -21,4 +21,6 @@
     <string name="intro_hero_image">Intro hero image</string>
     <string name="intro_hero_text">Let\'s Get Started!</string>
     <string name="intro_description">Organize and manage your tasks easily!</string>
+    <string name="no_boards_available">No boards available!</string>
+    <string name="create_board_description">To create a board tap the button below</string>
 </resources>
