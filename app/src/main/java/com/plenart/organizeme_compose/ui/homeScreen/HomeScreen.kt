@@ -101,7 +101,6 @@ fun HomeScreen(
                     ), onItemAction = {
                         when (it.idInResourceFile) {
                             R.string.menu_item_sign_out_id -> {
-                                Log.i("MainScreen", "Sign out button in drawer clicked")
                                 onSignOutButtonAction()
                             }
                         }
@@ -132,14 +131,6 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                Text(text = userName)
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
-                    contentDescription = "img"
-                )
-                Button(onClick = { onButtonAction() }) {
-                    Text(text = "create board")
-                }
                 if (viewState.boards.isEmpty()) {
                     NoBoardsAssigned()
                 } else {

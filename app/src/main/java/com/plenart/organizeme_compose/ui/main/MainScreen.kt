@@ -23,6 +23,7 @@ import com.plenart.organizeme_compose.navigation.NavigationItem
 import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsRoute
 import com.plenart.organizeme_compose.ui.boardDetails.BoardDetailsViewModel
 import com.plenart.organizeme_compose.ui.components.navigationComponents.fab.FloatingButton
+import com.plenart.organizeme_compose.ui.createBoard.CreateBoardRoute
 import com.plenart.organizeme_compose.ui.homeScreen.HomeScreenRoute
 import com.plenart.organizeme_compose.ui.intro.IntroScreenRoute
 import com.plenart.organizeme_compose.ui.signIn.SignInRoute
@@ -47,7 +48,10 @@ fun MainScreen() {
                     containerColor = Teal200,
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(id = R.string.add_board_fab),
-                    onFloatingButtonAction = { Log.i("MainScreen", "FAB clicked") }
+                    onFloatingButtonAction = {
+                        Log.i("MainScreen", "FAB clicked")
+                        navController.navigate(NavigationItem.CreateBoardDestination.route)
+                    }
                 )
             }
         }
@@ -101,7 +105,7 @@ fun MainScreen() {
                             )
                         },
                         onNavigateToIntroScreen = {
-                            navController.navigate(NavigationItem.IntroDestination.route){
+                            navController.navigate(NavigationItem.IntroDestination.route) {
                                 popUpTo(NavigationItem.HomeDestination.route) { inclusive = true }
                                 popUpTo(BoardDetailsDestination.route) { inclusive = true }
                             }
@@ -117,6 +121,19 @@ fun MainScreen() {
                         getViewModel<BoardDetailsViewModel>(parameters = { parametersOf(boardId) })
 
                     BoardDetailsRoute(boardDetailsViewModel)
+                }
+                composable(NavigationItem.CreateBoardDestination.route) {
+                    CreateBoardRoute(
+                        viewModel = getViewModel(),
+                        onNavigateToHomeScreen = {
+                            navController.navigate(NavigationItem.HomeDestination.route) {
+                                popUpTo(NavigationItem.CreateBoardDestination.route) {
+                                    inclusive = true
+                                }
+                            }
+                        },
+                        onTopBarNavigationAction = { navController.popBackStack() }
+                    )
                 }
             }
         }

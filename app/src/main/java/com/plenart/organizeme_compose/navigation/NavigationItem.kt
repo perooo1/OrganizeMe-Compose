@@ -4,6 +4,7 @@ const val INTRO_ROUTE = "Intro_route"
 const val SIGN_UP_ROUTE = "Sign_in_route"
 const val SIGN_IN_ROUTE = "Sign_up_route"
 const val HOME_ROUTE = "Home_route"
+const val CREATE_BOARD_ROUTE = "Create_board_route"
 
 sealed class NavigationItem(
     override val route: String
@@ -12,4 +13,5 @@ sealed class NavigationItem(
     object SignUpDestination : NavigationItem(SIGN_UP_ROUTE)
     object SignInDestination : NavigationItem(SIGN_IN_ROUTE)
     object HomeDestination : NavigationItem(HOME_ROUTE)
+    object CreateBoardDestination : NavigationItem(CREATE_BOARD_ROUTE)
 }
