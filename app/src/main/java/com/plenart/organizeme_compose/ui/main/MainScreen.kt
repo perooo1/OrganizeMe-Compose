@@ -120,7 +120,12 @@ fun MainScreen() {
                     val boardDetailsViewModel =
                         getViewModel<BoardDetailsViewModel>(parameters = { parametersOf(boardId) })
 
-                    BoardDetailsRoute(boardDetailsViewModel)
+                    BoardDetailsRoute(
+                        viewModel =  boardDetailsViewModel,
+                        onTopBarNavigationAction = {
+                            navController.popBackStack()
+                        }
+                    )
                 }
                 composable(NavigationItem.CreateBoardDestination.route) {
                     CreateBoardRoute(

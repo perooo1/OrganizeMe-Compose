@@ -71,3 +71,10 @@ val DrawerHeaderUserEmail = TextStyle(
     fontFamily = FontFamily.Default,
     fontStyle = FontStyle.Italic
 )
+
+val BoardDetailsHeader = TextStyle(
+    fontSize = 25.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontStyle = FontStyle.Italic
+)
