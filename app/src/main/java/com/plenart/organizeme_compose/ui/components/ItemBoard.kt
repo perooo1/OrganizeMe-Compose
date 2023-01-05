@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.theme.IntroDescription
+import com.plenart.organizeme_compose.ui.theme.ItemBoardHeader
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
 data class ItemBoardViewState(
@@ -54,31 +55,46 @@ fun ItemBoard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
+                    text = stringResource(id = R.string.board_name),
+                    style = ItemBoardHeader,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(
+                        top = LocalSpacing.current.medium
+                    )
+                )
+                Text(
                     text = viewState.boardName,
                     style = IntroDescription,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(
-                        LocalSpacing.current.medium
-                    )
+                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
+                )
+                Text(
+                    text = stringResource(id = R.string.board_id),
+                    style = ItemBoardHeader,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = viewState.boardId,
                     style = IntroDescription,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(
-                        LocalSpacing.current.medium
-                    )
+                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
+                )
+                Text(
+                    text = stringResource(id = R.string.board_created_by),
+                    style = ItemBoardHeader,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = viewState.createdBy,
                     style = IntroDescription,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding(
-                        LocalSpacing.current.medium
-                    )
+                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
                 )
             }
         }

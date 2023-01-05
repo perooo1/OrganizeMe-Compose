@@ -1,6 +1,8 @@
 package com.plenart.organizeme_compose.ui.theme
 
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
@@ -57,7 +59,7 @@ val SignUpSignInDescription = TextStyle(
     fontSize = 20.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
-    color = androidx.compose.ui.graphics.Color.Gray
+    color = Color.Gray
 )
 
 val DrawerHeaderUserName = TextStyle(
@@ -77,4 +79,17 @@ val BoardDetailsHeader = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontStyle = FontStyle.Italic
+)
+
+val ItemBoardHeader = TextStyle(
+    fontSize = 16.sp,
+    fontFamily = FontFamily.Default,
+    fontWeight = FontWeight.SemiBold,
+    fontStyle = FontStyle.Italic
+)
+
+val ItemBoardText = TextStyle(
+    fontSize = 12.sp,
+    fontFamily = FontFamily.Default,
+    color = Color.Gray
 )
