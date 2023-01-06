@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.ui.main
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -49,7 +48,6 @@ fun MainScreen() {
                     imageVector = Icons.Default.Add,
                     contentDescription = stringResource(id = R.string.add_board_fab),
                     onFloatingButtonAction = {
-                        Log.i("MainScreen", "FAB clicked")
                         navController.navigate(NavigationItem.CreateBoardDestination.route)
                     }
                 )

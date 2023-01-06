@@ -159,9 +159,7 @@ fun CredentialsInputCard(
 @Preview(showBackground = true)
 @Composable
 fun CredentialsInputCardPreview() {
-
     val viewState = CredentialsInputCardViewState()
-
     CredentialsInputCard(
         viewState = viewState,
         onEmailChange = { },

@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.ui.signIn
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -28,7 +27,6 @@ class SignInViewModel(
         viewState = viewState.copy(password = newPwd)
     }
 
-
     fun signIn() {
         val emailValid = emailValidator.execute(viewState.email)
         val passwordValid = passwordValidator.execute(viewState.password)
@@ -38,7 +36,6 @@ class SignInViewModel(
         } else {
             viewState = viewState.copy(emailError = null)
         }
-
 
         if (!passwordValid.successful) {
             viewState = viewState.copy(passwordError = passwordValid.errorMessage)

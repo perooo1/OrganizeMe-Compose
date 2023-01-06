@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
-import com.plenart.organizeme_compose.ui.theme.IntroDescription
+import com.plenart.organizeme_compose.ui.theme.InstructionDescriptionText
 import com.plenart.organizeme_compose.ui.theme.ItemBoardHeader
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
@@ -65,10 +65,10 @@ fun ItemBoard(
                 )
                 Text(
                     text = viewState.boardName,
-                    style = IntroDescription,
+                    style = InstructionDescriptionText,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
+                    modifier = Modifier.padding(vertical = LocalSpacing.current.small)
                 )
                 Text(
                     text = stringResource(id = R.string.board_id),
@@ -78,10 +78,10 @@ fun ItemBoard(
                 )
                 Text(
                     text = viewState.boardId,
-                    style = IntroDescription,
+                    style = InstructionDescriptionText,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
+                    modifier = Modifier.padding(vertical = LocalSpacing.current.small)
                 )
                 Text(
                     text = stringResource(id = R.string.board_created_by),
@@ -91,10 +91,10 @@ fun ItemBoard(
                 )
                 Text(
                     text = viewState.createdBy,
-                    style = IntroDescription,
+                    style = InstructionDescriptionText,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.padding( vertical = LocalSpacing.current.small)
+                    modifier = Modifier.padding(vertical = LocalSpacing.current.small)
                 )
             }
         }
@@ -105,6 +105,5 @@ fun ItemBoard(
 @Composable
 fun ItemBoardPreview() {
     val viewState = ItemBoardViewState("boardId", "hehe", "jozo")
-
     ItemBoard(viewState = viewState, onBoardAction = { })
 }

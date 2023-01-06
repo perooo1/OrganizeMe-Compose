@@ -24,7 +24,7 @@ class BoardDetailsViewModel(
             board ?: Board(
                 name = "Board from flow is null",
                 createdBy = "null",
-                documentID = "null-nada!"
+                documentID = "null"
             )
         )
     }.stateIn(

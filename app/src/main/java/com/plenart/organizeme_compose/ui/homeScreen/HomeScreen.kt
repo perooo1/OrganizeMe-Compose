@@ -1,6 +1,6 @@
 package com.plenart.organizeme_compose.ui.homeScreen
 
-import android.util.Log
+import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,8 +27,8 @@ import com.plenart.organizeme_compose.ui.components.navigationComponents.navigat
 import com.plenart.organizeme_compose.ui.components.navigationComponents.navigationDrawer.MenuItem
 import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBar
 import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBarIcon
-import com.plenart.organizeme_compose.ui.theme.IntroDescription
-import com.plenart.organizeme_compose.ui.theme.IntroHeroText
+import com.plenart.organizeme_compose.ui.theme.InstructionDescriptionText
+import com.plenart.organizeme_compose.ui.theme.HeroTextIntroScreenHomeScreen
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 import kotlinx.coroutines.launch
 
@@ -48,7 +48,6 @@ fun HomeScreenRoute(
             viewState = viewState,
             userName = userDataState.value!!.name,
             userEmail = userDataState.value!!.email,
-            onButtonAction = { homeScreenViewModel.createBoard() },
             onBoardAction = { onNavigateToBoardDetails(it) },
             onSignOutButtonAction = {
                 homeScreenViewModel.signOut()
@@ -60,7 +59,6 @@ fun HomeScreenRoute(
             viewState = viewState,
             userName = "Trenutno null",
             userEmail = "Trenutno null",
-            onButtonAction = {},
             onBoardAction = { onNavigateToBoardDetails(it) },
             onSignOutButtonAction = {
                 homeScreenViewModel.signOut()
@@ -76,7 +74,6 @@ fun HomeScreen(
     viewState: HomeScreenViewState,
     userName: String,
     userEmail: String,
-    onButtonAction: () -> Unit,
     onBoardAction: (String) -> Unit,
     onSignOutButtonAction: () -> Unit,
     modifier: Modifier = Modifier
@@ -167,7 +164,7 @@ fun NoBoardsAssigned(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(LocalSpacing.current.medium))
     Text(
         text = stringResource(id = R.string.no_boards_available),
-        style = IntroHeroText,
+        style = HeroTextIntroScreenHomeScreen,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis,
         modifier = Modifier.padding(
@@ -176,7 +173,7 @@ fun NoBoardsAssigned(modifier: Modifier = Modifier) {
     )
     Text(
         text = stringResource(id = R.string.create_board_description),
-        style = IntroDescription,
+        style = InstructionDescriptionText,
         maxLines = 1,
         overflow = TextOverflow.Ellipsis
     )
@@ -190,7 +187,6 @@ fun HomeScreenPreview() {
         viewState = viewState,
         userName = "username",
         userEmail = "email",
-        onButtonAction = {},
         onSignOutButtonAction = {},
         onBoardAction = {}
     )

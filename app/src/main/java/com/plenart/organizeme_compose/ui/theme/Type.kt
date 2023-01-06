@@ -1,13 +1,11 @@
 package com.plenart.organizeme_compose.ui.theme
 
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Typography
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
@@ -30,66 +28,51 @@ val Typography = Typography(
     )
     */
 )
-
 val SignInSignUpButtonText = TextStyle(
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold
 )
-
 val IntroAppName = TextStyle(
     fontSize = 32.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Bold,
 )
-
-val IntroHeroText = TextStyle(
+val HeroTextIntroScreenHomeScreen = TextStyle(
     fontSize = 25.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Light,
 )
-
-val IntroDescription = TextStyle(
+val InstructionDescriptionText = TextStyle(
     fontSize = 16.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     color = androidx.compose.ui.graphics.Color.Gray
 )
-
-val SignUpSignInDescription = TextStyle(
+val SignUpSignInBoardDetailsDescription = TextStyle(
     fontSize = 20.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal,
     color = Color.Gray
 )
-
 val DrawerHeaderUserName = TextStyle(
     fontSize = 60.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.Normal
 )
-
 val DrawerHeaderUserEmail = TextStyle(
     fontSize = 30.sp,
     fontFamily = FontFamily.Default,
     fontStyle = FontStyle.Italic
 )
-
 val BoardDetailsHeader = TextStyle(
     fontSize = 25.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontStyle = FontStyle.Italic
 )
-
 val ItemBoardHeader = TextStyle(
     fontSize = 16.sp,
     fontFamily = FontFamily.Default,
     fontWeight = FontWeight.SemiBold,
     fontStyle = FontStyle.Italic
-)
-
-val ItemBoardText = TextStyle(
-    fontSize = 12.sp,
-    fontFamily = FontFamily.Default,
-    color = Color.Gray
 )

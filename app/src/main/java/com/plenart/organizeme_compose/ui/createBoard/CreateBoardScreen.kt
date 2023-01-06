@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBar
 import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBarIcon
-import com.plenart.organizeme_compose.ui.theme.IntroDescription
+import com.plenart.organizeme_compose.ui.theme.InstructionDescriptionText
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 import com.plenart.organizeme_compose.ui.theme.SignInSignUpButtonText
 
@@ -72,7 +72,7 @@ fun CreateBoardScreen(
             Spacer(modifier = Modifier.padding(top = LocalSpacing.current.extraLarge))
             Text(
                 text = stringResource(id = R.string.create_board_instructions),
-                style = IntroDescription,
+                style = InstructionDescriptionText,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(LocalSpacing.current.medium)
@@ -119,6 +119,5 @@ fun CreateBoardScreen(
 @Composable
 fun CreateBoardScreenPreview() {
     val viewState = CreateBoardViewState("Board name")
-
     CreateBoardScreen(viewState, {}, {}, {})
 }

@@ -1,5 +1,8 @@
 package com.plenart.organizeme_compose.validation
 
+private const val MIN_PASSWORD_LENGTH = 6
+
+
 class ValidatePassword : Validator {
 
     override fun execute(input: String): ValidationResult {
@@ -19,7 +22,7 @@ class ValidatePassword : Validator {
     }
 
     private fun checkLength(password: String): ValidationResult {
-        return if (password.length < 6) {
+        return if (password.length < MIN_PASSWORD_LENGTH) {
             ValidationResult(
                 successful = false,
                 errorMessage = "Password needs to be at least 6 characters"

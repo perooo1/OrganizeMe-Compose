@@ -18,7 +18,7 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
-import com.plenart.organizeme_compose.ui.theme.SignUpSignInDescription
+import com.plenart.organizeme_compose.ui.theme.SignUpSignInBoardDetailsDescription
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -76,7 +76,7 @@ fun SignupScreen(
             Spacer(modifier = Modifier.height(LocalSpacing.current.extraLarge))
             Text(
                 text = stringResource(id = R.string.sign_up_hero_msg),
-                style = SignUpSignInDescription,
+                style = SignUpSignInBoardDetailsDescription,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(

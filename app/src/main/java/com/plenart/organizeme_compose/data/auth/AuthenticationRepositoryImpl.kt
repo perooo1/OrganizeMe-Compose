@@ -1,6 +1,5 @@
 package com.plenart.organizeme_compose.data.auth
 
-import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.plenart.organizeme_compose.data.user.FIRESTORE_COLLECTION_USERS
@@ -31,13 +30,7 @@ class AuthenticationRepositoryImpl(
         }
 
     override suspend fun signUp(email: String, password: String) {
-        auth.createUserWithEmailAndPassword(email, password).addOnSuccessListener {
-            Log.i("AuthRepoImpl", "Signup listener, user: ${it.user?.email.toString()}")
-            Log.i("AuthRepoImpl", "Signup listener, user: ${it.user?.uid.toString()}")
-        }.addOnFailureListener {
-            Log.i("AuthRepoImpl", "sign up onFailureListener: ${it.localizedMessage?.toString()}")
-        }.await()
-
+        auth.createUserWithEmailAndPassword(email, password).await()
     }
 
     override suspend fun createUserDocumentInCollection(
@@ -50,19 +43,10 @@ class AuthenticationRepositoryImpl(
         } else {
             throw IllegalArgumentException("createUserDocumentInCollection error, user obj not created due to id being empty")
         }
-        Log.i("AuthRepoImpl", "inside create user doc function userobj = ${userObj.id.toString()}, userobj id: ${userObj.id} ")
 
         firestore.collection(FIRESTORE_COLLECTION_USERS)
             .document(currentUserId)
             .set(userObj)
-            .addOnSuccessListener {
-                Log.i(
-                    "AuthRepoImpl",
-                    "AuthRepoImpl,firestore document add success listener, user ID: $currentUserId, "
-                )
-            }.addOnFailureListener {
-                Log.i("AuthRepoImpl", "firebase on fail list: ${it.localizedMessage}")
-            }
             .await()
     }
 

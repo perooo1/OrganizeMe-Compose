@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
 
+private const val DRAWER_MENU_ITEM_TEXT_WEIGHT = 1f
+
 @Composable
 fun DrawerBody(
     items: List<MenuItem>,
@@ -33,7 +35,7 @@ fun DrawerBody(
                     text = item.title,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(DRAWER_MENU_ITEM_TEXT_WEIGHT)
                 )
             }
         }

@@ -17,7 +17,7 @@ import com.plenart.organizeme_compose.R
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCard
 import com.plenart.organizeme_compose.ui.components.CredentialsInputCardViewState
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
-import com.plenart.organizeme_compose.ui.theme.SignUpSignInDescription
+import com.plenart.organizeme_compose.ui.theme.SignUpSignInBoardDetailsDescription
 
 @Composable
 fun SignInRoute(viewModel: SignInViewModel, onNavigateToHomeScreen: () -> Unit) {
@@ -63,7 +63,7 @@ fun SignInScreen(
             Spacer(modifier = Modifier.height(LocalSpacing.current.extraLarge))
             Text(
                 text = stringResource(id = R.string.sign_in_hero_msg),
-                style = SignUpSignInDescription,
+                style = SignUpSignInBoardDetailsDescription,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
@@ -91,7 +91,6 @@ fun SignInScreen(
 @Composable
 fun SignInScreenPreview() {
     val viewState = CredentialsInputCardViewState()
-
     SignInScreen(
         credentialsInputCardViewState = viewState,
         onEmailChange = { },

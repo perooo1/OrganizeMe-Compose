@@ -1,5 +1,7 @@
 package com.plenart.organizeme_compose.validation
 
+private const val MIN_NAME_LENGTH = 3
+
 class ValidateName : Validator {
 
     override fun execute(input: String): ValidationResult {
@@ -12,7 +14,7 @@ class ValidateName : Validator {
     }
 
     private fun checkLength(name: String): ValidationResult {
-        return if (name.length < 3) {
+        return if (name.length < MIN_NAME_LENGTH) {
             ValidationResult(
                 successful = false,
                 errorMessage = "Name must be at least three characters long"

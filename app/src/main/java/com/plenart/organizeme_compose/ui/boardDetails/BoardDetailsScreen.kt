@@ -22,7 +22,7 @@ import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.
 import com.plenart.organizeme_compose.ui.components.navigationComponents.topBar.TopBarIcon
 import com.plenart.organizeme_compose.ui.theme.BoardDetailsHeader
 import com.plenart.organizeme_compose.ui.theme.LocalSpacing
-import com.plenart.organizeme_compose.ui.theme.SignUpSignInDescription
+import com.plenart.organizeme_compose.ui.theme.SignUpSignInBoardDetailsDescription
 
 @Composable
 fun BoardDetailsRoute(
@@ -46,7 +46,6 @@ fun BoardDetailsScreen(
     onTopBarNavigationAction: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Scaffold(
         topBar = {
             TopBar(navigationIcon = {
@@ -78,7 +77,7 @@ fun BoardDetailsScreen(
             )
             Text(
                 text = viewState.boardName,
-                style = SignUpSignInDescription,
+                style = SignUpSignInBoardDetailsDescription,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
@@ -96,7 +95,7 @@ fun BoardDetailsScreen(
             )
             Text(
                 text = viewState.createdBy,
-                style = SignUpSignInDescription,
+                style = SignUpSignInBoardDetailsDescription,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
@@ -111,6 +110,5 @@ fun BoardDetailsScreen(
 @Composable
 fun BoardDetailsPreview() {
     val viewState = BoardDetailsViewState("jfnejfn", "random", "somebody")
-
     BoardDetailsScreen(viewState = viewState, {})
 }

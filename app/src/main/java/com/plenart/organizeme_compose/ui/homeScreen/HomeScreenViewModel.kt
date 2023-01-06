@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.plenart.organizeme_compose.data.auth.AuthenticationRepository
 import com.plenart.organizeme_compose.data.board.BoardRepository
 import com.plenart.organizeme_compose.data.user.UserRepository
-import com.plenart.organizeme_compose.model.Board
 import com.plenart.organizeme_compose.model.User
 import com.plenart.organizeme_compose.ui.homeScreen.mapper.HomeScreenMapper
 import kotlinx.coroutines.flow.*
@@ -47,21 +46,6 @@ class HomeScreenViewModel(
         if (userId.isNotEmpty()) {
             viewModelScope.launch {
                 userRepository.getUserDetails(userId)
-            }
-        }
-    }
-
-    fun createBoard() {                 //This function is currently used for testing and adding boards, ideally should be in it's own screen and according viewmodel
-        if (userId.isNotEmpty()) {
-            val boardName = "Nakon board detailsaa"
-            val assignedUsers = mutableListOf<String>()
-            assignedUsers.add(userId)
-
-            val board =
-                Board(name = boardName, createdBy = userId, assignedTo = assignedUsers.toList())
-
-            viewModelScope.launch {
-                boardRepository.createBoard(board)
             }
         }
     }

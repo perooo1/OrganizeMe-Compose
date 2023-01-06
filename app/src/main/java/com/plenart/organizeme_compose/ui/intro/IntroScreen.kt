@@ -68,7 +68,7 @@ fun IntroScreen(
             )
             Text(
                 text = stringResource(id = R.string.intro_hero_text),
-                style = IntroHeroText,
+                style = HeroTextIntroScreenHomeScreen,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.padding(
@@ -77,7 +77,7 @@ fun IntroScreen(
             )
             Text(
                 text = stringResource(id = R.string.intro_description),
-                style = IntroDescription,
+                style = InstructionDescriptionText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )

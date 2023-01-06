@@ -1,8 +1,6 @@
 package com.plenart.organizeme_compose.ui.signUp.di
 
 import com.plenart.organizeme_compose.ui.signUp.SignUpViewModel
-import com.plenart.organizeme_compose.ui.signUp.mapper.SignUpMapper
-import com.plenart.organizeme_compose.ui.signUp.mapper.SignUpMapperImpl
 import com.plenart.organizeme_compose.validation.di.VALIDATOR_EMAIL_QUALIFIER
 import com.plenart.organizeme_compose.validation.di.VALIDATOR_NAME_QUALIFIER
 import com.plenart.organizeme_compose.validation.di.VALIDATOR_PASSWORD_QUALIFIER
@@ -19,5 +17,4 @@ val signUpModule = module {
             passwordValidator = get(named(VALIDATOR_PASSWORD_QUALIFIER))
         )
     }
-    single<SignUpMapper> { SignUpMapperImpl() }
 }
