@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">OrganizeMe-Compose</string>
+    <string name="name">Name</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign in</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="board_name">Board Name</string>
+    <string name="create_board">Create Board</string>
+    <string name="board_id">Board ID</string>
+    <!--- Content descriptions -->
+    <string name="person_icon">Person icon</string>
+    <string name="email_icon">Email icon</string>
+    <string name="lock_icon">Lock icon</string>
+    <string name="top_bar_menu_icon">Top bar menu icon</string>
+    <string name="board_img_placeholder">Board Image placeholder</string>
+    <string name="add_board_fab">Add board FAB</string>
+    <string name="drawer_header_background_img">Drawer header background image</string>
+    <!--- Menu Item id's -->
+    <string name="menu_item_sign_out_id">sign_out</string>
+    <!--- Misc -->
+    <string name="sign_up_hero_msg">To sign up with us, please provide your name, email and password</string>
+    <string name="sign_in_hero_msg">To sign in, please provide your email and password</string>
+    <string name="intro_background_image">Intro background image</string>
+    <string name="intro_hero_image">Intro hero image</string>
+    <string name="intro_hero_text">Let\'s Get Started!</string>
+    <string name="intro_description">Organize and manage your tasks easily!</string>
+    <string name="no_boards_available">No boards available!</string>
+    <string name="create_board_description">To create a board tap the button below</string>
+    <string name="create_board_instructions">To create a board, enter desired board name and tap the button below!</string>
+    <string name="board_created_by">Board created by:</string>
 </resources>
